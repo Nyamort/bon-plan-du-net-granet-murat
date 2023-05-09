@@ -2,6 +2,8 @@ version: "3.4"
 
 services:
   php:
+    depends_on:
+      - database
     build:
       context: .
       target: app_php
@@ -17,12 +19,12 @@ services:
       retries: 3
       start_period: 30s
     environment:
-      # Run "composer require symfony/orm-pack" to install and configure Doctrine ORM
-      DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-14}&charset=${POSTGRES_CHARSET:-utf8}
-      # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
+      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+    networks:
+      - dev
 
   caddy:
     build:
@@ -52,6 +54,22 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
+    networks:
+      - dev
+
+  database:
+    image: mariadb:${DB_VERSION:-10}
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
+      MARIADB_DATABASE: ${DB_DATABASE:-app}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-!ChangeMe!}
+      MARIADB_USER: ${DB_USER:-app}
+    volumes:
+      - database_data:/var/lib/mysql:rw
+    ports:
+      - ${DB_PORT:-3306}:3306
+    networks:
+      - dev
 
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
@@ -61,5 +79,12 @@ volumes:
   php_socket:
   caddy_data:
   caddy_config:
+  database_data:
 ###> symfony/mercure-bundle ###
+
+###> doctrine/doctrine-bundle ###
+###< doctrine/doctrine-bundle ###
 ###< symfony/mercure-bundle ###
+
+networks:
+  dev:
