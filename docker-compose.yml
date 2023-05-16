@@ -13,6 +13,8 @@ services:
     restart: unless-stopped
     volumes:
       - php_socket:/var/run/php
+      - ./:/srv/app
+      - ./docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
     healthcheck:
       interval: 10s
       timeout: 3s
