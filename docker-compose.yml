@@ -1,90 +1,58 @@
-version: "3.4"
-
+version: '3'
 services:
-  php:
-    depends_on:
-      - database
-    build:
-      context: .
-      target: app_php_dev
-      args:
-        SYMFONY_VERSION: ${SYMFONY_VERSION:-}
-        STABILITY: ${STABILITY:-stable}
-    restart: unless-stopped
-    volumes:
-      - php_socket:/var/run/php
-    healthcheck:
-      interval: 10s
-      timeout: 3s
-      retries: 3
-      start_period: 30s
-    environment:
-      MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
-      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}
-      MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
-      MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
-    networks:
-      - dev
+    apache:
+        build: .docker/apache
+        container_name: lpa_sf6_apache
+        ports:
+          - "8081:80"
+        volumes:
+          - .docker/config/vhosts:/etc/apache2/sites-enabled
+          - .:/var/www/lpa_sf6
+          - .docker/data/apache:/var/log/apache2
+        environment:
+          PHP_IDE_CONFIG: serverName=lpa_sf6.docker
+        depends_on:
+          - php
 
-  caddy:
-    build:
-      context: .
-      target: app_caddy
-    depends_on:
-      - php
-    environment:
-      SERVER_NAME: ${SERVER_NAME:-localhost, caddy:80}
-      MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
-      MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
-    restart: unless-stopped
-    volumes:
-      - php_socket:/var/run/php
-      - caddy_data:/data
-      - caddy_config:/config
-    ports:
-      # HTTP
-      - target: 80
-        published: ${HTTP_PORT:-80}
-        protocol: tcp
-      # HTTPS
-      - target: 443
-        published: ${HTTPS_PORT:-443}
-        protocol: tcp
-      # HTTP/3
-      - target: 443
-        published: ${HTTP3_PORT:-443}
-        protocol: udp
-    networks:
-      - dev
+    php:
+        build: .docker/php
+        container_name: lpa_sf6_php
+        volumes:
+          - .:/var/www/lpa_sf6
+        environment:
+          - mailcatcher_host=lpa_sf6_mailcatcher
+        depends_on:
+          - mailcatcher
 
-  database:
-    image: mariadb:${DB_VERSION:-10}
-    environment:
-      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
-      MARIADB_DATABASE: ${DB_DATABASE:-app}
-      MARIADB_PASSWORD: ${DB_PASSWORD:-!ChangeMe!}
-      MARIADB_USER: ${DB_USER:-app}
-    volumes:
-      - database_data:/var/lib/mysql:rw
-    ports:
-      - ${DB_PORT:-3306}:3306
-    networks:
-      - dev
+    mailcatcher:
+        container_name: lpa_sf6_mailcatcher
+        restart: on-failure:10
+        image: dockage/mailcatcher:0.8.2
+        ports:
+            - "1081:1080"
+            - "1026:1025"
 
-# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+    mysql:
+        image: mysql:8.0.31
+        command: ['--default-authentication-plugin=mysql_native_password']
+        container_name: lpa_sf6_mysql
+        volumes:
+            - .docker/data/db:/var/lib/mysql
+        ports:
+            - "3310:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: lpa_sf6
+            MYSQL_USER: lpa_sf6
+            MYSQL_PASSWORD: lpa_sf6
 
-volumes:
-  php_socket:
-  caddy_data:
-  caddy_config:
-  database_data:
-###> symfony/mercure-bundle ###
-
-###> doctrine/doctrine-bundle ###
-###< doctrine/doctrine-bundle ###
-###< symfony/mercure-bundle ###
-
-networks:
-  dev:
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: lpa_sf6_phpmyadmin
+        environment:
+          PMA_HOST: mysql
+          PMA_PORT: 3306
+        ports:
+            - "8090:80"
+        links:
+            - mysql
