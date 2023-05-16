@@ -26,6 +26,9 @@ class CodePromo
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeDeReduction $typeDeReduction = null;
 
+    #[ORM\OneToOne(mappedBy: 'codePromo', cascade: ['persist', 'remove'])]
+    private ?Publication $publication = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,28 @@ class CodePromo
     public function setTypeDeReduction(?TypeDeReduction $typeDeReduction): self
     {
         $this->typeDeReduction = $typeDeReduction;
+
+        return $this;
+    }
+
+    public function getPublication(): ?Publication
+    {
+        return $this->publication;
+    }
+
+    public function setPublication(?Publication $publication): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($publication === null && $this->publication !== null) {
+            $this->publication->setCodePromo(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($publication !== null && $publication->getCodePromo() !== $this) {
+            $publication->setCodePromo($this);
+        }
+
+        $this->publication = $publication;
 
         return $this;
     }

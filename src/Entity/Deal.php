@@ -23,6 +23,9 @@ class Deal
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $fees = null;
 
+    #[ORM\OneToOne(mappedBy: 'deal', cascade: ['persist', 'remove'])]
+    private ?Publication $publication = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,28 @@ class Deal
     public function setFees(?string $fees): self
     {
         $this->fees = $fees;
+
+        return $this;
+    }
+
+    public function getPublication(): ?Publication
+    {
+        return $this->publication;
+    }
+
+    public function setPublication(?Publication $publication): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($publication === null && $this->publication !== null) {
+            $this->publication->setDeal(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($publication !== null && $publication->getDeal() !== $this) {
+            $publication->setDeal($this);
+        }
+
+        $this->publication = $publication;
 
         return $this;
     }
