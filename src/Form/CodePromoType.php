@@ -17,7 +17,9 @@ class CodePromoType extends AbstractType
     {
         $builder
             ->add('code', TextType::class)
-            ->add('expiredAt', DateTimeType::class)
+            ->add('expiredAt', DateTimeType::class,[
+                'widget' => 'single_text'
+            ])
             ->add('value', NumberType::class)
             ->add('typeDeReduction')
             ->add('publication', PublicationType::class)

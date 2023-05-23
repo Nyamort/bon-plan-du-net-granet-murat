@@ -1,3 +1,24 @@
+/* Réinitialisation des styles */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: lightgray;
+    font-family: Arial, sans-serif;
+}
+
+/* Réinitialisation des styles pour les liens */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Réinitialisation des styles pour les listes */
+ul,
+ol {
+    list-style: none;
 }

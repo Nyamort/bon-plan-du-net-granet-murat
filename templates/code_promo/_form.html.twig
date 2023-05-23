@@ -1,40 +1,40 @@
 {{ form_start(form) }}
-<div class="form-group">
+    <div class="form-floating">
         {{ form_label(form.code) }}
-    {{ form_widget(form.code, {'attr': {'class': 'form-control'}}) }}
-    {{ form_errors(form.code) }}
+        {{ form_widget(form.code, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.code) }}
     </div>
-    <div class="form-group">
+    <div class="form-floating">
         {{ form_label(form.expiredAt) }}
         {{ form_widget(form.expiredAt, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.expiredAt) }}
     </div>
-    <div class="form-group">
+    <div class="form-floating">
         {{ form_label(form.value) }}
         {{ form_widget(form.value, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.value) }}
     </div>
-    <div class="form-group">
+    <div class="form-floating">
         {{ form_label(form.typeDeReduction) }}
         {{ form_widget(form.typeDeReduction, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.typeDeReduction) }}
     </div>
-    <div class="form-group">
+    <div class="form-floating">
         {{ form_label(form.publication.link) }}
         {{ form_widget(form.publication.link, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.publication.link) }}
     </div>
-    <div class="form-group">
+    <div class="form-floating">
         {{ form_label(form.publication.description) }}
         {{ form_widget(form.publication.description, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.publication.description) }}
     </div>
-    <div class="form-group">
+    <div class="form-floating">
         {{ form_label(form.publication.title) }}
         {{ form_widget(form.publication.title, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.publication.title) }}
     </div>
-    <div class="form-group">
+    <div class="form-floating">
         {{ form_label(form.publication.image) }}
         {{ form_widget(form.publication.image, {'attr': {'class': 'form-control-file'}}) }}
         {{ form_errors(form.publication.image) }}
