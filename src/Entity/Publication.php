@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PublicationRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -26,7 +27,7 @@ class Publication
     private ?string $title = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $publishedAt = null;
+    private ?DateTimeImmutable $publishedAt = null;
 
     #[ORM\OneToOne(inversedBy: 'publication', cascade: ['persist', 'remove'])]
     private ?Deal $deal = null;
@@ -34,11 +35,18 @@ class Publication
     #[ORM\OneToOne(inversedBy: 'publication', cascade: ['persist', 'remove'])]
     private ?CodePromo $codePromo = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
+    #[ORM\OneToMany(mappedBy: 'publication', targetEntity: Notation::class, orphanRemoval: true)]
+    private Collection $notations;
+
     #[ORM\OneToMany(mappedBy: 'publication', targetEntity: Commentaire::class)]
     private Collection $commentaires;
 
     public function __construct()
     {
+        $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
     }
 
@@ -83,12 +91,12 @@ class Publication
         return $this;
     }
 
-    public function getPublishedAt(): ?\DateTimeImmutable
+    public function getPublishedAt(): ?DateTimeImmutable
     {
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(\DateTimeImmutable $publishedAt): self
+    public function setPublishedAt(DateTimeImmutable $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
 
@@ -115,6 +123,48 @@ class Publication
     public function setCodePromo(?CodePromo $codePromo): self
     {
         $this->codePromo = $codePromo;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notation>
+     */
+    public function getNotations(): Collection
+    {
+        return $this->notations;
+    }
+
+    public function addNotation(Notation $notation): self
+    {
+        if (!$this->notations->contains($notation)) {
+            $this->notations->add($notation);
+            $notation->setPublication($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotation(Notation $notation): self
+    {
+        if ($this->notations->removeElement($notation)) {
+            // set the owning side to null (unless already changed)
+            if ($notation->getPublication() === $this) {
+                $notation->setPublication(null);
+            }
+        }
 
         return $this;
     }

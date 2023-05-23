@@ -32,11 +32,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commentaire::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notation::class, orphanRemoval: true)]
+    private Collection $notations;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commentaire::class)]
     private Collection $commentaires;
 
     public function __construct()
     {
+        $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
     }
 
@@ -123,6 +127,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return Collection<int, Notation>
+     */
+    public function getNotations(): Collection
+    {
+        return $this->notations;
+    }
+
+    public function addNotation(Notation $notation): self
+    {
+        if (!$this->notations->contains($notation)) {
+            $this->notations->add($notation);
+            $notation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotation(Notation $notation): self
+    {
+        if ($this->notations->removeElement($notation)) {
+            // set the owning side to null (unless already changed)
+            if ($notation->getUser() === $this) {
+                $notation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, Commentaire>
      */
     public function getCommentaires(): Collection
@@ -134,7 +168,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->commentaires->contains($commentaire)) {
             $this->commentaires->add($commentaire);
-            $commentaire->setUtilisateur($this);
+            $commentaire->setUser($this);
         }
 
         return $this;
@@ -144,8 +178,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->commentaires->removeElement($commentaire)) {
             // set the owning side to null (unless already changed)
-            if ($commentaire->getUtilisateur() === $this) {
-                $commentaire->setUtilisateur(null);
+            if ($commentaire->getUser() === $this) {
+                $commentaire->setUser(null);
             }
         }
 

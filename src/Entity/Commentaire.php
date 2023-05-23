@@ -14,7 +14,7 @@ class Commentaire
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
-    private ?User $utilisateur = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     private ?Publication $publication = null;
@@ -24,14 +24,14 @@ class Commentaire
         return $this->id;
     }
 
-    public function getUtilisateur(): ?User
+    public function getUser(): ?User
     {
-        return $this->utilisateur;
+        return $this->user;
     }
 
-    public function setUtilisateur(?User $utilisateur): self
+    public function setUser(?User $user): self
     {
-        $this->utilisateur = $utilisateur;
+        $this->user = $user;
 
         return $this;
     }
