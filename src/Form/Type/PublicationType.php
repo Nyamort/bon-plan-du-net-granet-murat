@@ -16,10 +16,38 @@ class PublicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('link', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('title', TextType::class)
+            ->add('link', TextType::class,[
+                'label' => 'Lien',
+                'attr' => [
+                    'placeholder' => 'Lien',
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating'
+                ],
+                'help' => 'Veuillez donner le lien de la page où la communauté pourra profiter de votre annonce'
+            ])
+            ->add('description', TextareaType::class,[
+                'label' => 'Description',
+                'attr' => [
+                    'placeholder' => 'Description',
+                    'rows' => '5',
+                    'class' => 'h-auto'
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating',
+                ]
+            ])
+            ->add('title', TextType::class,[
+                'label' => 'Titre de la publication',
+                'attr' => [
+                    'placeholder' => 'Titre de la publication',
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating'
+                ]
+            ])
             ->add('image', DropzoneType::class,[
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'Déposez votre image ici',
                 ],

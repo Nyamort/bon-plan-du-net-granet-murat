@@ -36,7 +36,8 @@
     "symfony/ux-dropzone": "^2.8",
     "symfony/validator": "6.*",
     "symfony/webpack-encore-bundle": "^1.16",
-    "symfony/yaml": "6.*"
+    "symfony/yaml": "6.*",
+    "twbs/bootstrap-icons": "^1.10"
   },
   "config": {
     "allow-plugins": {

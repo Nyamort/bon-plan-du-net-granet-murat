@@ -1,8 +1,4 @@
-/* Styles généraux */
-body {
-    margin: 0;
-    padding: 0;
-}
+@import "preview";
 
 .form-container {
     flex: 1;
@@ -12,4 +8,7 @@ body {
 .preview-container {
     flex: 1;
     padding: 20px;
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
 }
