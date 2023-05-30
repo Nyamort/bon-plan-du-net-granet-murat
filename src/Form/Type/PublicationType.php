@@ -31,7 +31,8 @@ class PublicationType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Description',
                     'rows' => '5',
-                    'class' => 'h-auto'
+                    'class' => 'h-auto',
+                    'preview'=> 'form-publication-description'
                 ],
                 'row_attr' => [
                     'class' => 'form-floating',
@@ -41,6 +42,7 @@ class PublicationType extends AbstractType
                 'label' => 'Titre de la publication',
                 'attr' => [
                     'placeholder' => 'Titre de la publication',
+                    'preview'=> 'form-publication-title'
                 ],
                 'row_attr' => [
                     'class' => 'form-floating'
@@ -50,6 +52,7 @@ class PublicationType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Déposez votre image ici',
+                    'data-controller' => 'dropzone'
                 ],
             ])
         ;
