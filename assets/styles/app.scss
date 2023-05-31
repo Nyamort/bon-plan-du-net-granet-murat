@@ -13,8 +13,12 @@ body {
 
 /* Réinitialisation des styles pour les liens */
 a {
+    text-decoration: none!important;
+    color: inherit!important;
+}
+
+a:hover {
     text-decoration: none;
-    color: inherit;
 }
 
 /* Réinitialisation des styles pour les listes */
