@@ -13,7 +13,11 @@
                 <a href="{{ path('app_code_promo_index') }}">Codes promo</a>
             </li>
             <li class="ms-auto">
-                <a href="{{ path('app_login') }}">Connexion</a>
+                {% if app.user %}
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Connexion</a>
+                {% endif %}
             </li>
         </ul>
     </nav>
