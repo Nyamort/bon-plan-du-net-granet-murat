@@ -9,6 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Url;
 use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class PublicationType extends AbstractType
@@ -24,7 +27,12 @@ class PublicationType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating'
                 ],
-                'help' => 'Veuillez donner le lien de la page où la communauté pourra profiter de votre annonce'
+                'help' => 'Veuillez donner le lien de la page où la communauté pourra profiter de votre annonce',
+                'constraints' => [
+                    new Url([
+                        'message' => 'Veuillez donner un lien valide'
+                    ])
+                ]
             ])
             ->add('description', TextareaType::class,[
                 'label' => 'Description',
@@ -46,6 +54,17 @@ class PublicationType extends AbstractType
                 ],
                 'row_attr' => [
                     'class' => 'form-floating'
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez donner un titre à votre publication'
+                    ]),
+                    new Length([
+                        'min' => 5,
+                        'minMessage' => 'Le titre doit contenir au moins {{ limit }} caractères',
+                        'max' => 255,
+                        'maxMessage' => 'Le titre doit contenir au maximum {{ limit }} caractères'
+                    ])
                 ]
             ])
             ->add('image', DropzoneType::class,[

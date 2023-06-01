@@ -2,10 +2,10 @@
     display: flex;
     border: 1px solid #ccc;
     border-radius: 5px;
-    height: 150px;
     position: sticky;
     top: 15%;
     overflow: hidden;
+    align-items: center;
 
     .preview-image{
         width: 150px;

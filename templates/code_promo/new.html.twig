@@ -2,18 +2,20 @@
 
 {% block title %}New CodePromo{% endblock %}
 {% block body %}
-    <h1>Poster un nouveau code promo</h1>
-
-    <div class="container d-flex">
-        <div class="form-container">
-            {{ include('code_promo/_form.html.twig') }}
-        </div>
-        <div class="preview-container">
-            <h3>Aperçu</h3>
-            {{ include('code_promo/_preview.html.twig') }}
+    <div class="d-flex gap-3 flex-column">
+        <a href="{{ path('app_code_promo_index') }}">
+            <i class="bi bi-arrow-left"></i>
+            Retour à la liste
+        </a>
+        <div class="d-flex gap-5">
+            <div class="form-container">
+                <h3>Poster un nouveau code promo</h3>
+                {{ include('code_promo/_form.html.twig') }}
+            </div>
+            <div class="preview-container">
+                <h3>Aperçu</h3>
+                {{ include('code_promo/_preview.html.twig') }}
+            </div>
         </div>
     </div>
-
-
-    <a href="{{ path('app_code_promo_index') }}">back to list</a>
 {% endblock %}
