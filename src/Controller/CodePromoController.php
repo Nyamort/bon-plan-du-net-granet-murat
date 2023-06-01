@@ -31,7 +31,7 @@ class CodePromoController extends AbstractController
         ]);
     }
 
-    #[Security]
+    #[Security('is_granted("ROLE_USER")')]
     #[Route('/new', name: 'app_code_promo_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CodePromoRepository $codePromoRepository): Response
     {

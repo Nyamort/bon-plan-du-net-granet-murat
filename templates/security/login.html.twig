@@ -16,12 +16,6 @@
 <body>
 <main>
     <section class="vh-100 gradient-custom">
-        {% if error %}
-            <div class="alert alert-danger vh-100" style="background-color:red">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
-                <h1>ERROR</h1>
-            </div>
-        {% endif %}
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -32,15 +26,19 @@
 
                                 <h2 class="fw-bold mb-2 text-uppercase">Se connecter</h2>
                                 <p class="text-white-50 mb-5">Entrez vos identifiants pour vous connecter</p>
-
+                                {% if error %}
+                                    <div class="alert alert-danger">
+                                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                                    </div>
+                                {% endif %}
                                 <div class="form-outline mb-4 form-floating text-dark">
-                                    <input type="email" id="typeEmailX" class="form-control form-control-lg"
+                                    <input type="email" id="typeEmailX" name="email" class="form-control form-control-lg"
                                            placeholder="name@example.com"/>
                                     <label for="typeEmailX">Email</label>
                                 </div>
 
                                 <div class="form-outline form-floating mb-4 text-dark">
-                                    <input type="password" id="typePasswordX" class="form-control form-control-lg"
+                                    <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg"
                                            placeholder="password"/>
                                     <label class="form-label" for="typePasswordX">Password</label>
                                 </div>
