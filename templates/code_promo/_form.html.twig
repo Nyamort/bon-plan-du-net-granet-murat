@@ -2,11 +2,13 @@
         {{ form_row(form.publication.link, {'label':'Lien du code promo'}) }}
 
         {{ form_row(form.typeDeReduction) }}
+        {{ form_row(form.value) }}
+
+
         {{ form_row(form.code) }}
         {{ form_row(form.publication.title) }}
         {{ form_row(form.publication.description) }}
 
         {{ form_row(form.expiredAt) }}
-        {{ form_row(form.value) }}
         {{ form_row(form.publication.image) }}
 {{ form_end(form) }}

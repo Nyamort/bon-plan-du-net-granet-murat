@@ -44,6 +44,10 @@ class Publication
     #[ORM\OneToMany(mappedBy: 'publication', targetEntity: Commentaire::class)]
     private Collection $commentaires;
 
+    #[ORM\ManyToOne(inversedBy: 'publications')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -195,6 +199,18 @@ class Publication
                 $commentaire->setPublication(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

@@ -28,6 +28,7 @@ class CodePromoType extends AbstractType
             ])
             ->add('expiredAt', DateTimeType::class,[
                 'widget' => 'single_text',
+                'input' => 'datetime_immutable',
                 'label' => 'Date d\'expiration',
                 'attr' => [
                     'placeholder' => 'Date d\'expiration',

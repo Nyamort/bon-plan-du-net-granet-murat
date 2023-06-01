@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\CodePromo;
 use App\Form\CodePromoType;
 use App\Repository\CodePromoRepository;
+use App\Service\FileUploader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +15,14 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/code-promo')]
 class CodePromoController extends AbstractController
 {
+
+
+    public function __construct(
+        private FileUploader $fileUploader
+    )
+    {
+    }
+
     #[Route('/', name: 'app_code_promo_index', methods: ['GET'])]
     public function index(CodePromoRepository $codePromoRepository): Response
     {
@@ -21,6 +31,7 @@ class CodePromoController extends AbstractController
         ]);
     }
 
+    #[Security]
     #[Route('/new', name: 'app_code_promo_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CodePromoRepository $codePromoRepository): Response
     {
@@ -29,6 +40,13 @@ class CodePromoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('publication')->get('image')->getData();
+            if ($image) {
+                $imageFileName = $this->fileUploader->upload($image);
+                $codePromo->getPublication()->setImage($imageFileName);
+            }
+            $codePromo->getPublication()->setAuthor($this->getUser());
+
             $codePromoRepository->save($codePromo, true);
 
             return $this->redirectToRoute('app_code_promo_index', [], Response::HTTP_SEE_OTHER);
@@ -48,6 +66,7 @@ class CodePromoController extends AbstractController
         ]);
     }
 
+    #[Security]
     #[Route('/{id}/edit', name: 'app_code_promo_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, CodePromo $codePromo, CodePromoRepository $codePromoRepository): Response
     {
@@ -66,6 +85,7 @@ class CodePromoController extends AbstractController
         ]);
     }
 
+    #[Security]
     #[Route('/{id}', name: 'app_code_promo_delete', methods: ['POST'])]
     public function delete(Request $request, CodePromo $codePromo, CodePromoRepository $codePromoRepository): Response
     {

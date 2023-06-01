@@ -1,0 +1,8 @@
+.card.publication{
+    height: 15rem;
+    & .card-img{
+        height: 13rem;
+        width: 13rem;
+        object-fit: cover;
+    }
+}

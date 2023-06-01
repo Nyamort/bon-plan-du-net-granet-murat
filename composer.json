@@ -1,8 +1,8 @@
 {
-  "name": "coworking/api",
+  "name": "bonplan-du-net/bonplan-du-net",
   "type": "project",
   "license": "MIT",
-  "description": "Coworking API",
+  "description": "bonplan-du-net",
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
@@ -34,6 +34,7 @@
     "symfony/serializer": "6.*",
     "symfony/twig-bundle": "6.*",
     "symfony/ux-dropzone": "^2.8",
+    "symfony/ux-twig-component": "^2.9",
     "symfony/validator": "6.*",
     "symfony/webpack-encore-bundle": "^1.16",
     "symfony/yaml": "6.*",
