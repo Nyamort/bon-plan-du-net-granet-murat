@@ -66,7 +66,7 @@ class CodePromoController extends AbstractController
         ]);
     }
 
-    #[Security]
+    #[Security('is_granted("ROLE_USER")')]
     #[Route('/{id}/edit', name: 'app_code_promo_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, CodePromo $codePromo, CodePromoRepository $codePromoRepository): Response
     {

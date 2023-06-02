@@ -73,6 +73,7 @@ class PublicationType extends AbstractType
                     'placeholder' => 'Déposez votre image ici',
                     'data-controller' => 'dropzone'
                 ],
+                'data_class' => null
             ])
         ;
     }

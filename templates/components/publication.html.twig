@@ -20,8 +20,8 @@
                 <h5 class="card-title fw-bold">{{ publication.title }}</h5>
                 <p class="card-text">{{ publication.description }}</p>
             </div>
-            <div class="card-footer">
-                <p class="card-text flex-column d-flex">
+            <div class="card-footer d-flex justify-content-between">
+                <div class="card-text flex-column d-flex">
                     <small class="text-muted">
                         Publié le {{ publication.publishedAt|date('d/m/Y') }} par {{ publication.author.pseudo }}
                     </small>
@@ -30,7 +30,14 @@
                             Expire le {{ publication.codePromo.expiredAt|date('d/m/Y') }}
                         </small>
                     {% endif %}
-                </p>
+                </div>
+                <div>
+                    {% if publication.codePromo is not null %}
+                        <a href="{{ path('app_code_promo_show', {id: publication.codePromo.id}) }}" class="btn btn-primary text-white">Voir le code promo</a>
+                        {% elseif publication.deal is not null %}
+                        <a href="{{ path('deal_show', {id: publication.deal.id}) }}" class="btn btn-primary">Voir le deal</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
