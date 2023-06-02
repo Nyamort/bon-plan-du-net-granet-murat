@@ -48,6 +48,8 @@ class Publication
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    private int $notation = 0;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -214,4 +216,22 @@ class Publication
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getNotation(): int
+    {
+        return $this->notation;
+    }
+
+    /**
+     * @param int $notation
+     */
+    public function setNotation(int $notation): void
+    {
+        $this->notation = $notation;
+    }
+
+
 }

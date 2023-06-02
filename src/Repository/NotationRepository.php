@@ -3,8 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Notation;
+use App\Entity\Publication;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Notation>
@@ -63,4 +67,32 @@ class NotationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByPublication(Publication $entity)
+    {
+        return $this->createQueryBuilder('n')
+            ->select('sum(n.value) as value')
+            ->andWhere('n.publication = :publication')
+            ->groupBy('n.publication')
+            ->setParameter('publication', $entity)
+            ->getQuery()
+            ->getOneOrNullResult();
+        ;
+    }
+
+    /**
+     * @param Publication $publication
+     * @param User $getUser
+     * @return Notation|null
+     * @throws NonUniqueResultException
+     */
+    public function liked(Publication $publication, User $getUser): ?Notation
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.publication = :publication')
+            ->andWhere('n.user = :user')
+            ->setParameter('publication', $publication)
+            ->setParameter('user', $getUser)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

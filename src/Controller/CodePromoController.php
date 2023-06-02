@@ -85,7 +85,7 @@ class CodePromoController extends AbstractController
         ]);
     }
 
-    #[Security]
+    #[Security('is_granted("ROLE_USER")')]
     #[Route('/{id}', name: 'app_code_promo_delete', methods: ['POST'])]
     public function delete(Request $request, CodePromo $codePromo, CodePromoRepository $codePromoRepository): Response
     {
