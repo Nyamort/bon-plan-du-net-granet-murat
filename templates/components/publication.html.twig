@@ -4,15 +4,32 @@
              alt="Publication image">
         <div class="w-100 d-flex flex-column">
             <div class="card-body">
-                <h5 class="card-title">{{ publication.title }}</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
+                <div class="border-1 d-flex border-secondary border notation rounded-pill px-2 py-1 gap-3 mb-2">
+                    <form method="post" action="{{ path('publication_like', {id: publication.id, type: 'dislike'}) }}">
+                        <button type="submit" class="btn btn-link p-0">
+                            <i class="bi bi-dash-lg text-primary"></i>
+                        </button>
+                    </form>
+                    <div class="{{ publication.notation > 0 ? 'text-danger' : 'text-primary'}}">{{ publication.notation }}°</div>
+                    <form method="post" action="{{ path('publication_like', {id: publication.id, type: 'like'}) }}">
+                        <button type="submit" class="btn btn-link p-0">
+                            <i class="bi bi-plus-lg text-danger"></i>
+                        </button>
+                    </form>
+                </div>
+                <h5 class="card-title fw-bold">{{ publication.title }}</h5>
+                <p class="card-text">{{ publication.description }}</p>
             </div>
             <div class="card-footer">
-                <p class="card-text">
+                <p class="card-text flex-column d-flex">
                     <small class="text-muted">
                         Publié le {{ publication.publishedAt|date('d/m/Y') }} par {{ publication.author.pseudo }}
                     </small>
+                    {% if publication.codePromo is not null %}
+                        <small class="text-muted">
+                            Expire le {{ publication.codePromo.expiredAt|date('d/m/Y') }}
+                        </small>
+                    {% endif %}
                 </p>
             </div>
         </div>
