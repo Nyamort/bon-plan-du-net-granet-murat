@@ -10,3 +10,20 @@
         width: fit-content;
     }
 }
+
+.card.show-publication{
+    .card-img{
+        height: 13rem;
+        width: 13rem;
+        object-fit: cover;
+    }
+
+    & .notation{
+        width: fit-content;
+    }
+
+    .codepromo-box{
+        border: 1px dashed #5f84ff;
+        width: fit-content;
+    }
+}
