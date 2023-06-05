@@ -6,10 +6,23 @@
     <div class="d-flex flex-column gap-3 align-items-start">
         <a class="btn btn-primary text-white" href="{{ path('app_code_promo_new') }}">Ajouter un code promo</a>
         <div class="d-flex flex-column w-100">
+            <h2>Code(s) actif(s):</h2>
             {% for code_promo in code_promos %}
-                {{ component('publication', {
-                    publication: code_promo.publication
-                }) }}
+                {% if date() < date(code_promo.expiredAt) %}
+                    {{ component('publication', {
+                        publication: code_promo.publication
+                    }) }}
+                {% endif %}
+            {% else %}
+                <p class="text-center">Aucun code promo pour le moment</p>
+            {% endfor %}
+            <h2>Code(s) expiré(s):</h2>
+            {% for code_promo in code_promos %}
+                {% if date() >= date(code_promo.expiredAt) %}
+                    {{ component('publication', {
+                        publication: code_promo.publication
+                    }) }}
+                {% endif %}
             {% else %}
                 <p class="text-center">Aucun code promo pour le moment</p>
             {% endfor %}

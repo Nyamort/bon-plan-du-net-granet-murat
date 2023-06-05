@@ -98,6 +98,8 @@
     "symfony/css-selector": "6.*",
     "symfony/http-client": "6.*",
     "symfony/maker-bundle": "^1.48",
-    "symfony/phpunit-bridge": "^6.2"
+    "symfony/phpunit-bridge": "^6.2",
+    "symfony/stopwatch": "6.*",
+    "symfony/web-profiler-bundle": "6.*"
   }
 }
