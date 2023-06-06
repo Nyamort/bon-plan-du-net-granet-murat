@@ -20,6 +20,11 @@
                         {% endif %}
 
                     </div>
+                    {% if date() >= date(code_promo.expiredAt) %}
+                        <div class="d-flex gap-5 align-items-centerp">
+                            <p>&#128308 - Ce code promo a expiré</p>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <div class="card-text flex-column d-flex">

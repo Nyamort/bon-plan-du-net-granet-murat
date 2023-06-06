@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Deal{% endblock %}
+
+{% block body %}
+<div class="card show-publication">
+    <div class="d-flex p-3 gap-3">
+        <img class="card-img rounded overflow-hidden" src="{{ asset('uploads/publications/'~deal.publication.image) }}" alt="Deal"/>
+        <div class="w-100 d-flex flex-column">
+            <div class="card-body align-items-start">
+                {{ component('notation', { publication: deal.publication }) }}
+                <h5 class="card-title fw-bold">{{ deal.publication.title }}</h5>
+                <p class="card-text">{{ deal.publication.description }}</p>
+                <p class="card-text">Prix habituel : {{ deal.regularPrice }}</p>
+                <p class="card-text">Frais de livraison : {{ deal.fees }}</p>
+                <div class="d-flex gap-5 align-items-center">
+                    <a class="btn btn-primary text-white" href="{{ deal.publication.link }}">
+                        Visiter le site
+                    </a>
+                    <div class="codepromo-box py-1 px-3 rounded fw-bold">Deal : {{ deal.price }}</div>
+                </div>
+                <br>
+                <div class="card-footer d-flex justify-content-between">
+                    <div class="card-text flex-column d-flex">
+                        <small class="text-muted">
+                            Publié le {{ deal.publication.publishedAt|date('d/m/Y') }} par {{ deal.publication.author.pseudo }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {# include('deal/_delete_form.html.twig') #}
+{% endblock %}

@@ -1,0 +1,14 @@
+{{ form_start(form, {'attr': {'class': 'gap-3 d-flex flex-column', 'data-controller': 'preview'}}) }}
+        {{ form_row(form.publication.link, {'label':'Lien du bon-plan'}) }}
+
+        {{ form_row(form.price) }}
+        {{ form_row(form.regularPrice) }}
+
+
+        {{ form_row(form.fees) }}
+        {{ form_row(form.publication.title) }}
+        {{ form_row(form.publication.description) }}
+
+        {# form_row(form.expiredAt) #}
+        {{ form_row(form.publication.image) }}
+{{ form_end(form) }}
