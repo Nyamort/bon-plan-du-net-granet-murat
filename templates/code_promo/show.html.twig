@@ -29,19 +29,23 @@
                                 <div class="codepromo-box py-1 px-3 rounded fw-bold">Code promo : {{ code_promo.publication.codePromo.code }}</div>
                             {% endif %}
 
-                        </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <div class="card-text flex-column d-flex">
-                            <small class="text-muted">
-                                Publié le {{ code_promo.publication.publishedAt|date('d/m/Y') }} par {{ code_promo.publication.author.pseudo }}
-                            </small>
-                            {% if code_promo.publication.codePromo is not null %}
-                                <small class="text-muted">
-                                    Expire le {{ code_promo.publication.codePromo.expiredAt|date('d/m/Y') }}
-                                </small>
-                            {% endif %}
+                    {% if date() >= date(code_promo.expiredAt) %}
+                        <div class="d-flex gap-5 align-items-centerp">
+                            <p>&#128308 - Ce code promo a expiré</p>
                         </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <div class="card-text flex-column d-flex">
+                        <small class="text-muted">
+                            Publié le {{ code_promo.publication.publishedAt|date('d/m/Y') }} par {{ code_promo.publication.author.pseudo }}
+                        </small>
+                        {% if code_promo.publication.codePromo is not null %}
+                            <small class="text-muted">
+                                Expire le {{ code_promo.publication.codePromo.expiredAt|date('d/m/Y') }}
+                            </small>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -56,6 +60,4 @@
             {% endfor %}
         </div>
     </div>
-
-
 {% endblock %}

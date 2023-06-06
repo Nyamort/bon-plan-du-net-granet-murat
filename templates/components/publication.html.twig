@@ -34,8 +34,8 @@
                 <div>
                     {% if publication.codePromo is not null %}
                         <a href="{{ path('app_code_promo_show', {id: publication.codePromo.id}) }}" class="btn btn-primary text-white">Voir le code promo</a>
-                        {% elseif publication.deal is not null %}
-                        <a href="{{ path('deal_show', {id: publication.deal.id}) }}" class="btn btn-primary">Voir le deal</a>
+                    {% elseif publication.deal is not null %}
+                        <a href="{{ path('app_deal_show', {id: publication.deal.id}) }}" class="btn btn-primary">Voir le deal</a>
                     {% endif %}
                 </div>
             </div>

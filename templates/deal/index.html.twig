@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Deal index{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-column gap-3 align-items-start">
+        <a class="btn btn-primary text-white" href="{{ path('app_deal_new') }}">Ajouter un bon-plan</a>
+        <div class="d-flex flex-column w-100">
+            {% if deals is empty %}
+                <h2>Bon-plan:</h2>
+            {% else %}
+                <h2>Bon-plans:</h2>
+            {% endif %}
+            {% for deal in deals %}
+                    {{ component('publication', {
+                        publication: deal.publication
+                    }) }}
+            {% else %}
+                <p class="text-center">Aucun bon-plan pour le moment</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

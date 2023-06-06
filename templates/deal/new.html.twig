@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Deal{% endblock %}
+
+{% block body %}
+    <div class="d-flex gap-3 flex-column">
+        <a href="{{ path('app_code_promo_index') }}">
+            <i class="bi bi-arrow-left"></i>
+            Retour à la liste
+        </a>
+        <div class="d-flex gap-5">
+            <div class="form-container">
+                <h3>Poster un nouveau bon-plan</h3>
+                    {{ include('deal/_form.html.twig') }}
+            </div>
+            <div class="preview-container">
+                <h3>Aperçu</h3>
+                {{ include('deal/_preview.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
