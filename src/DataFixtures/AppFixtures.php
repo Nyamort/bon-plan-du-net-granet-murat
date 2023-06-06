@@ -13,5 +13,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        (new TypeDeReductionFixtures)->load($manager);
+        (new UserFixtures)->load($manager);
     }
 }

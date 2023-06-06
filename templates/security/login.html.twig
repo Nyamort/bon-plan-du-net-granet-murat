@@ -43,7 +43,7 @@
                                     <label class="form-label" for="typePasswordX">Password</label>
                                 </div>
 
-                                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a>
+                                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="{{ url('app_forgot_password_request') }}">Forgot password?</a>
                                 </p>
                                 <input type="hidden" name="_csrf_token"
                                        value="{{ csrf_token('authenticate') }}"

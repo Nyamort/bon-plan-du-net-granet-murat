@@ -206,6 +206,19 @@
             "config/packages/validator.yaml"
         ]
     },
+    "symfony/web-profiler-bundle": {
+        "version": "6.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.1",
+            "ref": "e42b3f0177df239add25373083a564e5ead4e13a"
+        },
+        "files": [
+            "config/packages/web_profiler.yaml",
+            "config/routes/web_profiler.yaml"
+        ]
+    },
     "symfony/webpack-encore-bundle": {
         "version": "1.16",
         "recipe": {
@@ -223,6 +236,18 @@
             "config/packages/webpack_encore.yaml",
             "package.json",
             "webpack.config.js"
+        ]
+    },
+    "symfonycasts/reset-password-bundle": {
+        "version": "1.14",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "97c1627c0384534997ae1047b93be517ca16de43"
+        },
+        "files": [
+            "config/packages/reset_password.yaml"
         ]
     },
     "symfonycasts/verify-email-bundle": {

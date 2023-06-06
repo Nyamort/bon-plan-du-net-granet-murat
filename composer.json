@@ -38,6 +38,7 @@
     "symfony/validator": "6.*",
     "symfony/webpack-encore-bundle": "^1.16",
     "symfony/yaml": "6.*",
+    "symfonycasts/reset-password-bundle": "^1.14",
     "symfonycasts/verify-email-bundle": "^1.13",
     "twbs/bootstrap-icons": "^1.10"
   },
@@ -97,6 +98,8 @@
     "symfony/css-selector": "6.*",
     "symfony/http-client": "6.*",
     "symfony/maker-bundle": "^1.48",
-    "symfony/phpunit-bridge": "^6.2"
+    "symfony/phpunit-bridge": "^6.2",
+    "symfony/stopwatch": "6.*",
+    "symfony/web-profiler-bundle": "6.*"
   }
 }
