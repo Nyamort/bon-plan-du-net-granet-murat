@@ -7,14 +7,16 @@
                 {{ component('notation', { publication: publication }) }}
                 <h5 class="card-title fw-bold">{{ publication.title }}</h5>
                 <h6 class="fw-bold">
-                    {% if publication.codePromo.typeDeReduction.label == 'Livraison gratuite' %}
-                        {{ publication.codePromo.typeDeReduction.label }}
-                    {% elseif publication.codePromo.typeDeReduction.label == 'Pourcentage' %}
-                        Réduction de {{ publication.codePromo.value }}%
-                    {% elseif publication.codePromo.typeDeReduction.label == 'Euro' %}
-                        Réduction de {{ publication.codePromo.value }}€
-                    {% elseif publication.deal %}
-                        {{ publication.deal.promotionalPrice }}€
+                    {% if publication.codePromo is not null %}
+                        {% if publication.codePromo.typeDeReduction.label == 'Livraison gratuite' %}
+                            {{ publication.codePromo.typeDeReduction.label }}
+                        {% elseif publication.codePromo.typeDeReduction.label == 'Pourcentage' %}
+                            Réduction de {{ publication.codePromo.value }}%
+                        {% else %}
+                            Réduction de {{ publication.codePromo.value }}€
+                        {% endif %}
+                    {% else %}
+                        {{ publication.deal.price }}€ au lieu de
                        <span class="text-decoration-line-through">{{ publication.deal.regularPrice }}€</span>
                     {% endif %}
                 </h6>
@@ -35,7 +37,7 @@
                     {% if publication.codePromo is not null %}
                         <a href="{{ path('app_code_promo_show', {id: publication.codePromo.id}) }}" class="btn btn-primary text-white">Voir le code promo</a>
                     {% elseif publication.deal is not null %}
-                        <a href="{{ path('app_deal_show', {id: publication.deal.id}) }}" class="btn btn-primary">Voir le deal</a>
+                        <a href="{{ path('app_deal_show', {id: publication.deal.id}) }}" class="btn btn-primary text-white">Voir le deal</a>
                     {% endif %}
                 </div>
             </div>
