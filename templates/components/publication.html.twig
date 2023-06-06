@@ -6,6 +6,18 @@
             <div class="card-body">
                 {{ component('notation', { publication: publication }) }}
                 <h5 class="card-title fw-bold">{{ publication.title }}</h5>
+                <h6 class="fw-bold">
+                    {% if publication.codePromo.typeDeReduction.label == 'Livraison gratuite' %}
+                        {{ publication.codePromo.typeDeReduction.label }}
+                    {% elseif publication.codePromo.typeDeReduction.label == 'Pourcentage' %}
+                        Réduction de {{ publication.codePromo.value }}%
+                    {% elseif publication.codePruomo.typeDeReduction.label == 'Euro' %}
+                        Réduction de {{ publication.codePromo.value }}€
+                    {% elseif publication.deal %}
+                        {{ publication.deal.promotionalPrice }}€
+                       <span class="text-decoration-line-through">{{ publication.deal.regularPrice }}€</span>
+                    {% endif %}
+                </h6>
                 <p class="card-text">{{ publication.description }}</p>
             </div>
             <div class="card-footer d-flex justify-content-between">

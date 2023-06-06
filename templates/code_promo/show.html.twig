@@ -4,15 +4,24 @@
 
 {% block body %}
     <div class="card show-publication">
-        <div class="d-flex p-3 gap-3">
-            <img class="card-img rounded overflow-hidden" src="{{ asset('uploads/publications/'~code_promo.publication.image) }}" alt="CodePromo"/>
+        <div class="d-flex gap-3">
+            <img class="p-3 card-img rounded overflow-hidden" src="{{ asset('uploads/publications/'~code_promo.publication.image) }}" alt="CodePromo"/>
             <div class="w-100 d-flex flex-column">
                 <div class="card-body align-items-start">
                     {{ component('notation', { publication: code_promo.publication }) }}
                     <h5 class="card-title fw-bold">{{ code_promo.publication.title }}</h5>
+                    <h6 class="fw-bold">
+                    {% if code_promo.typeDeReduction.label == 'Livraison gratuite' %}
+                        {{ code_promo.typeDeReduction.label }}
+                    {% elseif code_promo.typeDeReduction.label == 'Pourcentage' %}
+                        Réduction de {{ code_promo.value }}%
+                    {% else %}
+                        Réduction de {{ code_promo.value }}€
+                    {% endif %}
+                    </h6>
                     <p class="card-text">{{ code_promo.publication.description }}</p>
                     <div class="d-flex gap-5 align-items-center">
-                        <a class="btn btn-primary text-white" href="{{ code_promo.publication.link }}">
+                        <a class="btn btn-primary text-white" target="_blank" href="{{ code_promo.publication.link }}">
                             Visiter le site
                         </a>
                         {% if  code_promo.publication.codePromo is not null %}

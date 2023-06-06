@@ -3,6 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\CodePromo;
+use App\Entity\Notation;
+use App\Entity\Publication;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +40,35 @@ class CodePromoRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findHot(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin(Publication::class, 'p', 'WITH', 'p.codePromo = c.id')
+            ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
+            ->groupBy('c.id')
+            ->having('sum(n.value) >= 100')
+            ->andWhere('c.expiredAt > :date')
+            ->setParameter('date', new DateTime())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+    public function findHotExpired()
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin(Publication::class, 'p', 'WITH', 'p.codePromo = c.id')
+            ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
+            ->groupBy('c.id')
+            ->having('sum(n.value) >= 100')
+            ->andWhere('c.expiredAt < :date')
+            ->setParameter('date', new DateTime())
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**

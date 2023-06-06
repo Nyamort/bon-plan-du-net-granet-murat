@@ -26,8 +26,12 @@ class CodePromoController extends AbstractController
     #[Route('/', name: 'app_code_promo_index', methods: ['GET'])]
     public function index(CodePromoRepository $codePromoRepository): Response
     {
+        $codePromos = $codePromoRepository->findHot();
+        $expiredPromos = $codePromoRepository->findHotExpired();
+
         return $this->render('code_promo/index.html.twig', [
-            'code_promos' => $codePromoRepository->findAll(),
+            'code_promos' => $codePromos,
+            'expired_promos' => $expiredPromos,
         ]);
     }
 
