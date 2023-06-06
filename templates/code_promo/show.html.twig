@@ -3,46 +3,59 @@
 {% block title %}CodePromo{% endblock %}
 
 {% block body %}
-    <div class="card show-publication">
-        <div class="d-flex gap-3">
-            <img class="p-3 card-img rounded overflow-hidden" src="{{ asset('uploads/publications/'~code_promo.publication.image) }}" alt="CodePromo"/>
-            <div class="w-100 d-flex flex-column">
-                <div class="card-body align-items-start">
-                    {{ component('notation', { publication: code_promo.publication }) }}
-                    <h5 class="card-title fw-bold">{{ code_promo.publication.title }}</h5>
-                    <h6 class="fw-bold">
-                    {% if code_promo.typeDeReduction.label == 'Livraison gratuite' %}
-                        {{ code_promo.typeDeReduction.label }}
-                    {% elseif code_promo.typeDeReduction.label == 'Pourcentage' %}
-                        Réduction de {{ code_promo.value }}%
-                    {% else %}
-                        Réduction de {{ code_promo.value }}€
-                    {% endif %}
-                    </h6>
-                    <p class="card-text">{{ code_promo.publication.description }}</p>
-                    <div class="d-flex gap-5 align-items-center">
-                        <a class="btn btn-primary text-white" target="_blank" href="{{ code_promo.publication.link }}">
-                            Visiter le site
-                        </a>
-                        {% if  code_promo.publication.codePromo is not null %}
-                            <div class="codepromo-box py-1 px-3 rounded fw-bold">Code promo : {{ code_promo.publication.codePromo.code }}</div>
-                        {% endif %}
+    <div class="d-flex flex-column gap-5">
+        <div class="card show-publication">
+            <div class="d-flex gap-3">
+                <img class="p-3 card-img rounded overflow-hidden" src="{{ asset('uploads/publications/'~code_promo.publication.image) }}" alt="CodePromo"/>
+                <div class="w-100 d-flex flex-column">
+                    <div class="card-body align-items-start">
+                        {{ component('notation', { publication: code_promo.publication }) }}
+                        <h5 class="card-title fw-bold">{{ code_promo.publication.title }}</h5>
+                        <h6 class="fw-bold">
+                            {% if code_promo.typeDeReduction.label == 'Livraison gratuite' %}
+                                {{ code_promo.typeDeReduction.label }}
+                            {% elseif code_promo.typeDeReduction.label == 'Pourcentage' %}
+                                Réduction de {{ code_promo.value }}%
+                            {% else %}
+                                Réduction de {{ code_promo.value }}€
+                            {% endif %}
+                        </h6>
+                        <p class="card-text">{{ code_promo.publication.description }}</p>
+                        <div class="d-flex gap-5 align-items-center">
+                            <a class="btn btn-primary text-white" target="_blank" href="{{ code_promo.publication.link }}">
+                                Visiter le site
+                            </a>
+                            {% if  code_promo.publication.codePromo is not null %}
+                                <div class="codepromo-box py-1 px-3 rounded fw-bold">Code promo : {{ code_promo.publication.codePromo.code }}</div>
+                            {% endif %}
 
+                        </div>
                     </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <div class="card-text flex-column d-flex">
-                        <small class="text-muted">
-                            Publié le {{ code_promo.publication.publishedAt|date('d/m/Y') }} par {{ code_promo.publication.author.pseudo }}
-                        </small>
-                        {% if code_promo.publication.codePromo is not null %}
+                    <div class="card-footer d-flex justify-content-between">
+                        <div class="card-text flex-column d-flex">
                             <small class="text-muted">
-                                Expire le {{ code_promo.publication.codePromo.expiredAt|date('d/m/Y') }}
+                                Publié le {{ code_promo.publication.publishedAt|date('d/m/Y') }} par {{ code_promo.publication.author.pseudo }}
                             </small>
-                        {% endif %}
+                            {% if code_promo.publication.codePromo is not null %}
+                                <small class="text-muted">
+                                    Expire le {{ code_promo.publication.codePromo.expiredAt|date('d/m/Y') }}
+                                </small>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="d-flex flex-column gap-3">
+            <h3 class="fw-bold">Commentaires</h3>
+            <a href="{{ path('app_publication_comment', { id: code_promo.publication.id }) }}" class="btn btn-primary text-white">Ajouter un commentaire</a>
+            {% for comment in code_promo.publication.commentaires %}
+                {{ component('comment', { commentaire: comment }) }}
+            {% else %}
+                <p class="text-center">Aucun commentaire pour le moment</p>
+            {% endfor %}
+        </div>
     </div>
+
+
 {% endblock %}

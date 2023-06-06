@@ -11,7 +11,7 @@
                         {{ publication.codePromo.typeDeReduction.label }}
                     {% elseif publication.codePromo.typeDeReduction.label == 'Pourcentage' %}
                         Réduction de {{ publication.codePromo.value }}%
-                    {% elseif publication.codePruomo.typeDeReduction.label == 'Euro' %}
+                    {% elseif publication.codePromo.typeDeReduction.label == 'Euro' %}
                         Réduction de {{ publication.codePromo.value }}€
                     {% elseif publication.deal %}
                         {{ publication.deal.promotionalPrice }}€

@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header d-flex flex-column">
+        <span class="fw-bold">
+        {{ commentaire.user.pseudo }}
+        </span>
+        <span class="text-muted">
+            Posté le {{ commentaire.publishedAt | date('d/m/Y') }} à {{ commentaire.publishedAt | date('H:i') }}
+        </span>
+    </div>
+    <div class="card-body">
+        {{ commentaire.comment }}
+    </div>
+</div>

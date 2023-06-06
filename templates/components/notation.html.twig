@@ -1,11 +1,11 @@
 <div class="border-1 d-flex border-secondary border notation rounded-pill px-2 py-1 gap-3 mb-2">
-  <form method="post" action="{{ path('publication_like', {id: publication.id, type: 'dislike'}) }}">
+  <form method="post" action="{{ path('app_publication_like', {id: publication.id, type: 'dislike'}) }}">
     <button type="submit" class="btn btn-link p-0">
       <i class="bi bi-dash-lg text-primary"></i>
     </button>
   </form>
   <div class="{{ publication.notation > 0 ? 'text-danger' : 'text-primary'}}">{{ publication.notation }}°</div>
-  <form method="post" action="{{ path('publication_like', {id: publication.id, type: 'like'}) }}">
+  <form method="post" action="{{ path('app_publication_like', {id: publication.id, type: 'like'}) }}">
     <button type="submit" class="btn btn-link p-0">
       <i class="bi bi-plus-lg text-danger"></i>
     </button>

@@ -8,9 +8,9 @@
         <div class="d-flex flex-column w-100 gap-5">
             <div>
                 {% if code_promos | length > 1 %}
-                    <h2>Codes actifs:</h2>
+                    <h2>Codes actifs</h2>
                 {% else %}
-                    <h2>Code actif:</h2>
+                    <h2>Code actif</h2>
                 {% endif %}
                 {% for code_promo in code_promos %}
                     {{ component('publication', {
@@ -23,9 +23,9 @@
 
             <div>
                 {% if expired_promos | length > 1 %}
-                    <h2>Codes expirés:</h2>
+                    <h2>Codes expirés</h2>
                 {% else %}
-                    <h2>Code expiré:</h2>
+                    <h2>Code expiré</h2>
                 {% endif %}
                 {% for code_promo in expired_promos %}
                     {{ component('publication', {

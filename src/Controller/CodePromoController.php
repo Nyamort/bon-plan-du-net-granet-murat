@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\CodePromo;
+use App\Entity\Commentaire;
 use App\Form\CodePromoType;
+use App\Form\CommentType;
 use App\Repository\CodePromoRepository;
 use App\Service\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -66,7 +68,7 @@ class CodePromoController extends AbstractController
     public function show(CodePromo $codePromo): Response
     {
         return $this->render('code_promo/show.html.twig', [
-            'code_promo' => $codePromo,
+            'code_promo' => $codePromo
         ]);
     }
 
