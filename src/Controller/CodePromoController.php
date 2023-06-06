@@ -27,7 +27,7 @@ class CodePromoController extends AbstractController
     public function index(CodePromoRepository $codePromoRepository): Response
     {
         return $this->render('code_promo/index.html.twig', [
-            'code_promos' => $codePromoRepository->findAll(),
+            'code_promos' => $codePromoRepository->findHot(),
         ]);
     }
 
