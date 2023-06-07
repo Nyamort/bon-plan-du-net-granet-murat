@@ -2,15 +2,17 @@
 
 {% block title %}Deal index{% endblock %}
 
+{%  block subHeader %}
+    <div class="w-100 d-flex gap-5 bg-light mb-5 p-3">
+        <a class="btn btn-outline-primary" role="button" href="{{ path('app_deal_index') }}">Nouveaux</a>
+        <a class="btn btn-outline-primary" role="button" href="{{ path('app_deal_hot') }}">Hot</a>
+    </div>
+{% endblock %}
+
 {% block body %}
     <div class="d-flex flex-column gap-3 align-items-start">
         <a class="btn btn-primary text-white" href="{{ path('app_deal_new') }}">Ajouter un bon-plan</a>
-        <div class="d-flex flex-column w-100">
-            {% if deals | length > 1 %}
-                <h2>Bon-plans</h2>
-            {% else %}
-                <h2>Bon-plan</h2>
-            {% endif %}
+        <div class="d-flex flex-column gap-5 w-100">
             {% for deal in deals %}
                     {{ component('publication', {
                         publication: deal.publication

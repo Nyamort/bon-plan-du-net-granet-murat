@@ -2,41 +2,24 @@
 
 {% block title %}Code promos{% endblock %}
 
+{%  block subHeader %}
+    <div class="w-100 d-flex gap-5 bg-light mb-5 p-3">
+        <a class="btn btn-outline-primary" role="button" href="{{ path('app_code_promo_index') }}">Nouveaux</a>
+        <a class="btn btn-outline-primary" role="button" href="{{ path('app_code_promo_hot') }}">Hot</a>
+    </div>
+{% endblock %}
+
 {% block body %}
     <div class="d-flex flex-column gap-3 align-items-start">
         <a class="btn btn-primary text-white" href="{{ path('app_code_promo_new') }}">Ajouter un code promo</a>
         <div class="d-flex flex-column w-100 gap-5">
-            <div>
-                {% if code_promos | length > 1 %}
-                    <h2>Codes actifs</h2>
-                {% else %}
-                    <h2>Code actif</h2>
-                {% endif %}
-                {% for code_promo in code_promos %}
-                    {{ component('publication', {
-                        publication: code_promo.publication
-                    }) }}
-                {% else %}
-                    <p class="text-center">Aucun code promo pour le moment</p>
-                {% endfor %}
-            </div>
-
-            <div>
-                {% if expired_promos | length > 1 %}
-                    <h2>Codes expirés</h2>
-                {% else %}
-                    <h2>Code expiré</h2>
-                {% endif %}
-                {% for code_promo in expired_promos %}
-                    {{ component('publication', {
-                        publication: code_promo.publication
-                    }) }}
-                {% else %}
-                    <p class="text-center">Aucun code promo expiré</p>
-                {% endfor %}
-            </div>
-
-
+            {% for code_promo in code_promos %}
+                {{ component('publication', {
+                    publication: code_promo.publication
+                }) }}
+            {% else %}
+                <p class="text-center">Aucun code promo pour le moment</p>
+            {% endfor %}
         </div>
     </div>
 

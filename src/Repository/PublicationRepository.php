@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Commentaire;
+use App\Entity\Notation;
 use App\Entity\Publication;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +66,29 @@ class PublicationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findALaUne()
+    {
+        $lastWeek = new \DateTime('-1 week');
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->leftJoin(Commentaire::class, 'c', 'WITH', 'c.publication = p.id')
+            ->andWhere('p.publishedAt > :lastWeek')
+            ->setParameter('lastWeek', $lastWeek)
+            ->groupBy('p.id')
+            ->orderBy('count(c.id)', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findHot()
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
+            ->groupBy('p.id')
+            ->having('sum(n.value) >= 100')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

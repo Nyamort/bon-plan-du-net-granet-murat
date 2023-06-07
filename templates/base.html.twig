@@ -14,6 +14,7 @@
     </head>
     <body>
         {% include 'layout/_header.html.twig' %}
+        {% block subHeader %} {% endblock %}
         <main class="container">
             {% block body %}{% endblock %}
         </main>

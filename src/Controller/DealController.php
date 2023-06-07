@@ -6,6 +6,7 @@ use App\Entity\Deal;
 use App\Form\DealType;
 use App\Repository\DealRepository;
 use App\Service\FileUploader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,14 @@ class DealController extends AbstractController
     {
         return $this->render('deal/index.html.twig', [
             'deals' => $dealRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/hot', name: 'app_deal_hot', methods: ['GET'])]
+    public function hot(DealRepository $dealRepository): Response
+    {
+        return $this->render('deal/index.html.twig', [
+            'deals' => $dealRepository->findHot(),
         ]);
     }
 

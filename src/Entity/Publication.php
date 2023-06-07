@@ -42,6 +42,7 @@ class Publication
     private Collection $notations;
 
     #[ORM\OneToMany(mappedBy: 'publication', targetEntity: Commentaire::class)]
+    #[ORM\OrderBy(["publishedAt" => "DESC"])]
     private Collection $commentaires;
 
     #[ORM\ManyToOne(inversedBy: 'publications')]
