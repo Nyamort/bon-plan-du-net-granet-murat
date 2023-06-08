@@ -91,4 +91,16 @@ class PublicationRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function search(string $search): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->andWhere('p.title LIKE :search')
+            ->orWhere('p.description LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

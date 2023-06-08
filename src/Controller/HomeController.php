@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\PublicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,6 +25,18 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'publications' => $publications,
+        ]);
+    }
+
+    #[Route('/search', name: 'app_search')]
+    public function search(Request $request): Response
+    {
+        $search = $request->query->get('search') ?? '';
+        $publications = $this->publicationRepository->search($search);
+
+        return $this->render('home/index.html.twig', [
+            'publications' => $publications,
+            'search' => $search,
         ]);
     }
 
