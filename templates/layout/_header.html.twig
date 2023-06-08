@@ -20,6 +20,7 @@
                     </div>
                 </form>
                 {% if app.user %}
+                    <a href="{{ path('app_user') }}">Mon compte</a>
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
                     <a href="{{ path('app_login') }}">Connexion</a>

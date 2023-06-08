@@ -1,0 +1,51 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 40px;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #043c77;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+label {
+    font-weight: bold;
+}
+
+img.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.tile {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.tile .progress {
+    height: 20px;
+}
+
+.tile .progress-bar {
+    background-color: #043c77;
+}
+
+.tile .text {
+    margin-top: 10px;
+}
