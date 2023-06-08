@@ -25,12 +25,28 @@
                         </div>
                     </div>
                     <div class="tile">
-                        <h4>Nom de la tuile</h4>
+                        <h4>Surveillant :</h4>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" style="width: {{ user.surveillant*10 }}%;" aria-valuenow="{{ user.surveillant }}" aria-valuemin="0" aria-valuemax="10"></div>
                         </div>
                         <div class="text">
-                            <p>Texte de la tuile</p>
+                            <p>Nombre d'article voté : {{ user.surveillant }}</p>
+                        </div>
+                        <hr>
+                        <h4>Cobaye :</h4>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ user.cobaye*10 }}%;" aria-valuenow="{{ user.cobaye }}" aria-valuemin="0" aria-valuemax="10"></div>
+                        </div>
+                        <div class="text">
+                            <p>Nombre d'article posté : {{ user.cobaye }}</p>
+                        </div>
+                        <hr>
+                        <h4>Rapport de stage :</h4>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ user.rapportDeStage*10 }}%;" aria-valuenow="{{ user.rapportDeStage }}" aria-valuemin="0" aria-valuemax="10"></div>
+                        </div>
+                        <div class="text">
+                            <p>Nombre d'article commenté : {{ user.rapportDeStage }}</p>
                         </div>
                     </div>
                 </div>
