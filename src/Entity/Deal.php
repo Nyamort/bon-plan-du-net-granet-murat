@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\DealRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DealRepository::class)]
 class Deal
@@ -15,12 +16,15 @@ class Deal
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Groups(['publication'])]
     private ?string $price = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Groups(['publication'])]
     private ?string $regularPrice = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['publication'])]
     private ?string $fees = null;
 
     #[ORM\OneToOne(mappedBy: 'deal', cascade: ['persist', 'remove'])]
