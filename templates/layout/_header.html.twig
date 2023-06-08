@@ -12,7 +12,13 @@
             <li>
                 <a href="{{ path('app_code_promo_index') }}">Codes promo</a>
             </li>
-            <li class="ms-auto">
+            <li class="ms-auto d-flex gap-5 align-items-center">
+                <form action="{{ path('app_search') }}">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Rechercher" aria-label="Rechercher" aria-describedby="button-addon2" value="{{ search ?? null }}">
+                        <button class="btn btn-outline-light" type="submit" id="button-addon2">Rechercher</button>
+                    </div>
+                </form>
                 {% if app.user %}
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
