@@ -6,6 +6,7 @@ use App\Repository\TypeDeReductionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TypeDeReductionRepository::class)]
 class TypeDeReduction
@@ -16,6 +17,7 @@ class TypeDeReduction
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['publication'])]
     private ?string $label = null;
 
     #[ORM\OneToMany(mappedBy: 'typeDeReduction', targetEntity: CodePromo::class, orphanRemoval: true)]

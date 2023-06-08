@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
 class Publication
@@ -15,26 +16,34 @@ class Publication
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['publication'])]
     private ?int $id = null;
 
+    #[Groups(['publication'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
 
+    #[Groups(['publication'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[Groups(['publication'])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Groups(['publication'])]
     #[ORM\Column]
     private ?DateTimeImmutable $publishedAt = null;
 
+    #[Groups(['publication'])]
     #[ORM\OneToOne(inversedBy: 'publication', cascade: ['persist', 'remove'])]
     private ?Deal $deal = null;
 
+    #[Groups(['publication'])]
     #[ORM\OneToOne(inversedBy: 'publication', cascade: ['persist', 'remove'])]
     private ?CodePromo $codePromo = null;
 
+    #[Groups(['publication'])]
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
@@ -46,6 +55,7 @@ class Publication
     private Collection $commentaires;
 
     #[ORM\ManyToOne(inversedBy: 'publications')]
+    #[Groups(['publication'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 

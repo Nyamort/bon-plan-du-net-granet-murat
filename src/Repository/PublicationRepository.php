@@ -68,7 +68,7 @@ class PublicationRepository extends ServiceEntityRepository
 //    }
     public function findALaUne()
     {
-        $lastWeek = new \DateTime('-1 week');
+        $lastWeek = new DateTime('-1 week');
         return $this->createQueryBuilder('p')
             ->select('p')
             ->leftJoin(Commentaire::class, 'c', 'WITH', 'c.publication = p.id')
@@ -99,6 +99,18 @@ class PublicationRepository extends ServiceEntityRepository
             ->andWhere('p.title LIKE :search')
             ->orWhere('p.description LIKE :search')
             ->setParameter('search', '%' . $search . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findSemaine(): array
+    {
+        $lastWeek = new DateTime('-1 week');
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->andWhere('p.publishedAt > :lastWeek')
+            ->setParameter('lastWeek', $lastWeek)
             ->getQuery()
             ->getResult()
         ;

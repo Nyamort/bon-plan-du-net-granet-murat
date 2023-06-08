@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CodePromoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CodePromoRepository::class)]
 class CodePromo
@@ -14,16 +15,20 @@ class CodePromo
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['publication'])]
     private ?string $code = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['publication'])]
     private ?\DateTimeImmutable $expiredAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['publication'])]
     private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'codePromos')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['publication'])]
     private ?TypeDeReduction $typeDeReduction = null;
 
     #[ORM\OneToOne(mappedBy: 'codePromo', cascade: ['persist', 'remove'])]
