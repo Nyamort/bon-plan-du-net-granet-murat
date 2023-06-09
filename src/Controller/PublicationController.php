@@ -32,7 +32,6 @@ class PublicationController extends AbstractController
     public function comment(Request $request, int $id): Response
     {
         $publication = $this->publicationRepository->find($id);
-
         $comment = new Commentaire();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -44,6 +43,7 @@ class PublicationController extends AbstractController
              * @var User $user
              */
             $user = $this->getUser();
+            $user->addRapportDeStage();
             $comment->setPublication($publication);
             $comment->setUser($user);
             $this->commentaireRepository->save($comment, true);
@@ -71,6 +71,7 @@ class PublicationController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
+        $user->addSurveillant();
         $liked = $this->notationRepository->liked($publication, $user);
 
         $value = match ($type) {

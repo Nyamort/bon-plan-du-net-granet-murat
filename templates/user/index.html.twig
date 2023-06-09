@@ -25,28 +25,43 @@
                         </div>
                     </div>
                     <div class="tile">
-                        <h4>Surveillant :</h4>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ user.surveillant*10 }}%;" aria-valuenow="{{ user.surveillant }}" aria-valuemin="0" aria-valuemax="10"></div>
-                        </div>
-                        <div class="text">
-                            <p>Nombre d'article voté : {{ user.surveillant }}</p>
-                        </div>
-                        <hr>
-                        <h4>Cobaye :</h4>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ user.cobaye*10 }}%;" aria-valuenow="{{ user.cobaye }}" aria-valuemin="0" aria-valuemax="10"></div>
-                        </div>
-                        <div class="text">
-                            <p>Nombre d'article posté : {{ user.cobaye }}</p>
+                        <div class="badge">
+                            <img class="badgeImg" src="{{ asset('build/images/badgeVote.png') }}" alt="Badge de Vote">
+                            <div class="badgeDetail">
+                                <h4>Surveillant :</h4>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ user.surveillant*10 }}%;" aria-valuenow="{{ user.surveillant }}" aria-valuemin="0" aria-valuemax="10"></div>
+                                </div>
+                                <div class="text">
+                                    <p>Nombre d'article voté : {{ user.surveillant }}</p>
+                                </div>
+                            </div>
                         </div>
                         <hr>
-                        <h4>Rapport de stage :</h4>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ user.rapportDeStage*10 }}%;" aria-valuenow="{{ user.rapportDeStage }}" aria-valuemin="0" aria-valuemax="10"></div>
+                        <div class="badge">
+                            <img class="badgeImg" src="{{ asset('build/images/badgeCreation.png') }}" alt="Badge de Creation">
+                            <div class="badgeDetail">
+                                <h4>Cobaye :</h4>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ user.cobaye*10 }}%;" aria-valuenow="{{ user.cobaye }}" aria-valuemin="0" aria-valuemax="10"></div>
+                                </div>
+                                <div class="text">
+                                    <p>Nombre d'article posté : {{ user.cobaye }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="text">
-                            <p>Nombre d'article commenté : {{ user.rapportDeStage }}</p>
+                        <hr>
+                        <div class="badge">
+                            <img class="badgeImg" src="{{ asset('build/images/badgeComment.png') }}" alt="Badge de Commentaire">
+                            <div class="badgeDetail">
+                                <h4>Rapport de stage :</h4>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ user.rapportDeStage*10 }}%;" aria-valuenow="{{ user.rapportDeStage }}" aria-valuemin="0" aria-valuemax="10"></div>
+                                </div>
+                                <div class="text">
+                                    <p>Nombre d'article commenté : {{ user.rapportDeStage }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

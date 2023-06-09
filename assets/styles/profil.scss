@@ -38,3 +38,21 @@
 .tile .text {
     margin-top: 10px;
 }
+
+.badge{
+    display: flex;
+    flex-direction: row;
+    color: black;
+    width: 100%;
+}
+
+.badgeImg{
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.badgeDetail{
+    color:black;
+    width: 100%;
+}
