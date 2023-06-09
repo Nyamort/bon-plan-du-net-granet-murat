@@ -24,6 +24,20 @@
                             <input type="email" id="email" class="form-control" value="{{ user.email }}" disabled>
                         </div>
                     </div>
+                    <div>
+                        <div class="card-body card-profil-body d-flex flex-column">
+                            <h4>Nombre d'article posté :</h4>
+                            <p class="align-self-center fw-bold fs-4">{{ stats.publication }}</p>
+                            <h4>Nombre de commentaire posté :</h4>
+                            <p class="align-self-center fw-bold fs-4">{{ stats.comment }}</p>
+                            <h4>Note du deal posté le plus hot : </h4>
+                            <p class="align-self-center fw-bold fs-4">{{ stats.mostHot }}</p>
+                            <h4>Moyenne des notes des deals postés sur 1an :</h4>
+                            <p class="align-self-center fw-bold fs-4"> {{ stats.average }}</p>
+                            <h4>Pourcentage des deals postés devenus hot</h4>
+                            <p class="align-self-center fw-bold fs-4">{{ stats.pourcentage }} %</p>
+                        </div>
+                    </div>
                     <div class="tile">
                         <div class="badge">
                             <img class="badgeImg" src="{{ asset('build/images/badgeVote.png') }}" alt="Badge de Vote">

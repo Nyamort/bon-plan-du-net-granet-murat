@@ -63,4 +63,14 @@ class CommentaireRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+        public function findByUser($user){
+            return $this->createQueryBuilder('c')
+                ->select('count(c)')
+                ->andWhere('c.user = :user')
+                ->setParameter('user', $user)
+                ->getQuery()
+                ->getSingleScalarResult()
+            ;
+        }
 }
