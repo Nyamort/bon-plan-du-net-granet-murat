@@ -46,6 +46,7 @@ class DealController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->getUser()->addCobaye();
             $image = $form->get('publication')->get('image')->getData();
             if ($image) {
                 $imageFileName = $this->fileUploader->upload($image);

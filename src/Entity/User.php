@@ -256,9 +256,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->surveillant;
     }
 
-    public function setSurveillant(int $surveillant): self
+    public function addSurveillant(): self
     {
-        $this->surveillant = $surveillant;
+        $this->surveillant++;
 
         return $this;
     }
@@ -268,9 +268,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->cobaye;
     }
 
-    public function setCobaye(int $cobaye): self
+    public function addCobaye(): self
     {
-        $this->cobaye = $cobaye;
+        $this->cobaye ++;
 
         return $this;
     }
@@ -280,9 +280,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->rapportDeStage;
     }
 
-    public function setRapportDeStage(int $rapportDeStage): self
+    public function addRapportDeStage(): self
     {
-        $this->rapportDeStage = $rapportDeStage;
+        $this->rapportDeStage++;
 
         return $this;
     }

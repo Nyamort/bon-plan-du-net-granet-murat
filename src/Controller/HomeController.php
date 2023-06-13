@@ -25,6 +25,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'publications' => $publications,
+            'page' => 'home'
         ]);
     }
 
@@ -37,6 +38,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'publications' => $publications,
             'search' => $search,
+            'page' => 'home'
         ]);
     }
 
@@ -47,6 +49,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'publications' => $publications,
+            'page' => 'hot'
         ]);
     }
 }

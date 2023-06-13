@@ -115,4 +115,63 @@ class PublicationRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function countPublicationByUser($user)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('count(p)')
+            ->andWhere('p.author = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function averageNotationByUser($user){
+        $date = new DateTime('-1 year');
+        return $this->createQueryBuilder('p')
+            ->select('avg(n.value)')
+            ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
+            ->andWhere('p.author = :user AND p.publishedAt < :date')
+            ->setParameter('user', $user)
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function findHotByUser($user){
+        return $this->createQueryBuilder('p')
+            ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
+            ->andWhere('p.author = :user')
+            ->setParameter('user', $user)
+            ->groupBy('p.id')
+            ->having('sum(n.value) >= 100')
+            ->select('count(p)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function findByUser($user)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->andWhere('p.author = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function countVoteByUser($user){
+        return $this->createQueryBuilder('p')
+            ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
+            ->andWhere('p.author = :user')
+            ->setParameter('user', $user)
+            ->select('count(p)')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
 }

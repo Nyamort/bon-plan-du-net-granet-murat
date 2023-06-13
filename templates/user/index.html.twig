@@ -10,29 +10,46 @@
     <div class="container container-profil">
         <div class="row">
             <div class="col-md-6 offset-md-3">
+                <div class="topnav">
+                    {% if page == 'profil' %}
+                        <a class="active" href="{{ path('app_user') }}">Aperçu</a>
+                    {% else %}
+                        <a href="{{ path('app_user') }}">Aperçu</a>
+                    {% endif %}
+                    {% if page == 'deals' %}
+                        <a class="active" href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
+                    {% else %}
+                        <a href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
+                    {% endif %}
+                    <a href="{{ path('app_user') }}">Deals sauvegardés</a>
+                    <a href="{{ path('app_user') }}">Mes alertes</a>
+                    {% if page == 'setting' %}
+                        <a class="active" href="{{ path('app_user_setting') }}">Paramètres</a>
+                    {% else %}
+                        <a href="{{ path('app_user_setting') }}">Paramètres</a>
+                    {% endif %}
+                </div>
                 <div class="card card-profil">
                     <div class="card-header card-profil-header">
-                        <h3>Profil utilisateur</h3>
+                        <h3>{{title}}</h3>
                     </div>
-                    <div class="card-body card-profil-body">
-                        <div class="form-group">
-                            <label class="label-profil" for="username">Nom d'utilisateur:</label>
-                            <input type="text" id="username" class="form-control" value="{{ user.pseudo }}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label class="label-profil" for="email">Email:</label>
-                            <input type="email" id="email" class="form-control" value="{{ user.email }}" disabled>
-                        </div>
-                    </div>
-                    <div class="tile">
-                        <h4>Nom de la tuile</h4>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="text">
-                            <p>Texte de la tuile</p>
-                        </div>
-                    </div>
+                    {% if page == 'profil' %}
+                        {{ component('profilUser', {
+                            user: user,
+                            stats: stats,
+                        }) }}
+
+                    {% elseif page == 'deals' %}
+                        {{ component('profilDeals', {
+                            deals: deals,
+                        }) }}
+
+                    {% elseif page == 'setting' %}
+                        {{ component('profilSetting', {
+                            user: user,
+                            form: form,
+                        }) }}
+                    {% endif %}
                 </div>
             </div>
         </div>

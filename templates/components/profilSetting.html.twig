@@ -1,0 +1,12 @@
+<div class="card-body card-profil-body">
+    {{ form_start(form) }}
+    <div class="form-outline mb-4 form-floating text-light">
+        {{ form_row(form.pseudo, {label: 'Pseudo'}) }}
+    </div>
+    <div class="form-outline mb-4 form-floating text-light">
+        {{ form_row(form.email, {label: 'Email'}) }}
+    </div>
+    <button class="btn-light mb-4" type="submit">Save</button>
+    {{ form_end(form) }}
+    <a class="btn btn-outline-primary" href="{{ path('app_forgot_password_request') }}">Modifier le mot de passe</a>
+</div>
