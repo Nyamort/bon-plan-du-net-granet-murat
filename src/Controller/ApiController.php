@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\PublicationRepository;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -25,5 +26,19 @@ class ApiController extends AbstractFOSRestController
         $groups = ['publication'];
         $context = (new Context())->setGroups($groups);
         return View::create($publications, 200)->setContext($context);
+    }
+
+    #[Route('/private/favorites', name: 'api_private_favorites')]
+    public function favorites(): View
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $favorites = $user->getFavoris();
+
+        $groups = ['publication'];
+        $context = (new Context())->setGroups($groups);
+        return View::create($favorites, 200)->setContext($context);
     }
 }
