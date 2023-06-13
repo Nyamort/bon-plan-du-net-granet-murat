@@ -48,15 +48,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\Column]
-    private ?int $surveillant = null;
-
-    #[ORM\Column]
-    private ?int $cobaye = null;
-
-    #[ORM\Column]
-    private ?int $rapportDeStage = null;
-
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -247,42 +238,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    public function getSurveillant(): ?int
-    {
-        return $this->surveillant;
-    }
-
-    public function addSurveillant(): self
-    {
-        $this->surveillant++;
-
-        return $this;
-    }
-
-    public function getCobaye(): ?int
-    {
-        return $this->cobaye;
-    }
-
-    public function addCobaye(): self
-    {
-        $this->cobaye ++;
-
-        return $this;
-    }
-
-    public function getRapportDeStage(): ?int
-    {
-        return $this->rapportDeStage;
-    }
-
-    public function addRapportDeStage(): self
-    {
-        $this->rapportDeStage++;
 
         return $this;
     }
