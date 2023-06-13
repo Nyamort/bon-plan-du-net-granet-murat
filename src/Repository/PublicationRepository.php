@@ -116,7 +116,7 @@ class PublicationRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByUser($user)
+    public function countPublicationByUser($user)
     {
         return $this->createQueryBuilder('p')
             ->select('count(p)')
@@ -149,9 +149,29 @@ class PublicationRepository extends ServiceEntityRepository
             ->having('sum(n.value) >= 100')
             ->select('count(p)')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getSingleScalarResult()
         ;
     }
 
+    public function findByUser($user)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->andWhere('p.author = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
+    public function countVoteByUser($user){
+        return $this->createQueryBuilder('p')
+            ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
+            ->andWhere('p.author = :user')
+            ->setParameter('user', $user)
+            ->select('count(p)')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
 }

@@ -3,9 +3,17 @@
 {% block title %}Accueil{% endblock %}
 
 {%  block subHeader %}
-    <div class="w-100 d-flex gap-5 bg-light mb-5 p-3">
-        <a class="btn btn-outline-primary" role="button" href="{{ path('app_home') }}">A la une</a>
-        <a class="btn btn-outline-primary" role="button" href="{{ path('app_hot') }}">Hot</a>
+    <div class="topnav">
+        {% if(page == 'home') %}
+            <a class="active" role="button" href="{{ path('app_home') }}">A la une</a>
+        {% else %}
+            <a role="button" href="{{ path('app_home') }}">A la une</a>
+        {% endif %}
+        {% if(page == 'hot') %}
+            <a class="active" role="button" href="{{ path('app_hot') }}">Hot</a>
+        {% else %}
+            <a role="button" href="{{ path('app_hot') }}">Hot</a>
+        {% endif %}
     </div>
 {% endblock %}
 

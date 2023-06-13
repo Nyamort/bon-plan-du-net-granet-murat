@@ -11,79 +11,45 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="topnav">
-                    <a class="active" href="#">Aperçu</a>
-                    <a href="#">Deals</a>
-                    <a href="#">Deals sauvegardés</a>
-                    <a href="#">Mes alertes</a>
+                    {% if page == 'profil' %}
+                        <a class="active" href="{{ path('app_user') }}">Aperçu</a>
+                    {% else %}
+                        <a href="{{ path('app_user') }}">Aperçu</a>
+                    {% endif %}
+                    {% if page == 'deals' %}
+                        <a class="active" href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
+                    {% else %}
+                        <a href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
+                    {% endif %}
+                    <a href="{{ path('app_user') }}">Deals sauvegardés</a>
+                    <a href="{{ path('app_user') }}">Mes alertes</a>
+                    {% if page == 'setting' %}
+                        <a class="active" href="{{ path('app_user_setting') }}">Paramètres</a>
+                    {% else %}
+                        <a href="{{ path('app_user_setting') }}">Paramètres</a>
+                    {% endif %}
                 </div>
                 <div class="card card-profil">
                     <div class="card-header card-profil-header">
-                        <h3>Profil utilisateur</h3>
+                        <h3>{{title}}</h3>
                     </div>
-                    <div class="card-body card-profil-body">
-                        <div class="form-group">
-                            <label class="label-profil" for="username">Nom d'utilisateur:</label>
-                            <input type="text" id="username" class="form-control" value="{{ user.pseudo }}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label class="label-profil" for="email">Email:</label>
-                            <input type="email" id="email" class="form-control" value="{{ user.email }}" disabled>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="card-body card-profil-body d-flex flex-column">
-                            <h4>Nombre d'article posté :</h4>
-                            <p class="align-self-center fw-bold fs-4">{{ stats.publication }}</p>
-                            <h4>Nombre de commentaire posté :</h4>
-                            <p class="align-self-center fw-bold fs-4">{{ stats.comment }}</p>
-                            <h4>Note du deal posté le plus hot : </h4>
-                            <p class="align-self-center fw-bold fs-4">{{ stats.mostHot }}</p>
-                            <h4>Moyenne des notes des deals postés sur 1an :</h4>
-                            <p class="align-self-center fw-bold fs-4"> {{ stats.average }}</p>
-                            <h4>Pourcentage des deals postés devenus hot</h4>
-                            <p class="align-self-center fw-bold fs-4">{{ stats.pourcentage }} %</p>
-                        </div>
-                    </div>
-                    <div class="tile">
-                        <div class="badge">
-                            <img class="badgeImg" src="{{ asset('build/images/badgeVote.png') }}" alt="Badge de Vote">
-                            <div class="badgeDetail">
-                                <h4>Surveillant :</h4>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ user.surveillant*10 }}%;" aria-valuenow="{{ user.surveillant }}" aria-valuemin="0" aria-valuemax="10"></div>
-                                </div>
-                                <div class="text">
-                                    <p>Nombre d'article voté : {{ user.surveillant }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="badge">
-                            <img class="badgeImg" src="{{ asset('build/images/badgeCreation.png') }}" alt="Badge de Creation">
-                            <div class="badgeDetail">
-                                <h4>Cobaye :</h4>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ user.cobaye*10 }}%;" aria-valuenow="{{ user.cobaye }}" aria-valuemin="0" aria-valuemax="10"></div>
-                                </div>
-                                <div class="text">
-                                    <p>Nombre d'article posté : {{ user.cobaye }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="badge">
-                            <img class="badgeImg" src="{{ asset('build/images/badgeComment.png') }}" alt="Badge de Commentaire">
-                            <div class="badgeDetail">
-                                <h4>Rapport de stage :</h4>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ user.rapportDeStage*10 }}%;" aria-valuenow="{{ user.rapportDeStage }}" aria-valuemin="0" aria-valuemax="10"></div>
-                                </div>
-                                <div class="text">
-                                    <p>Nombre d'article commenté : {{ user.rapportDeStage }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% if page == 'profil' %}
+                        {{ component('profilUser', {
+                            user: user,
+                            stats: stats,
+                        }) }}
+
+                    {% elseif page == 'deals' %}
+                        {{ component('profilDeals', {
+                            deals: deals,
+                        }) }}
+
+                    {% elseif page == 'setting' %}
+                        {{ component('profilSetting', {
+                            user: user,
+                            form: form,
+                        }) }}
+                    {% endif %}
                 </div>
             </div>
         </div>

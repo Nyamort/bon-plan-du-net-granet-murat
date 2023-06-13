@@ -1,0 +1,12 @@
+
+<div class="d-flex flex-column gap-3 align-items-start">
+    <div class="d-flex flex-column gap-5 w-100">
+        {% for deal in deals %}
+            {{ component('publication', {
+                publication: deal,
+            }) }}
+        {% else %}
+            <p class="text-center">Aucune publication publié</p>
+        {% endfor %}
+    </div>
+</div>
