@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CodePromo;
 use App\Entity\Commentaire;
+use App\Entity\User;
 use App\Form\CodePromoType;
 use App\Form\CommentType;
 use App\Repository\CodePromoRepository;
@@ -76,8 +77,14 @@ class CodePromoController extends AbstractController
     #[Route('/{id}', name: 'app_code_promo_show', methods: ['GET'])]
     public function show(CodePromo $codePromo): Response
     {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $inFavorites = $user && $user->getFavoris()->contains($codePromo->getPublication());
         return $this->render('code_promo/show.html.twig', [
-            'code_promo' => $codePromo
+            'code_promo' => $codePromo,
+            'inFavorites' => $inFavorites
         ]);
     }
 
