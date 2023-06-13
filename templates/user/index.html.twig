@@ -21,7 +21,11 @@
                     {% else %}
                         <a href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
                     {% endif %}
-                    <a href="{{ path('app_user') }}">Deals sauvegardés</a>
+                    {% if page == 'favoris' %}
+                        <a class="active" href="{{ path('app_user_favoris') }}">Deals sauvegardés</a>
+                    {% else %}
+                        <a href="{{ path('app_user_favoris') }}">Deals sauvegardés</a>
+                    {% endif %}
                     <a href="{{ path('app_user') }}">Mes alertes</a>
                     {% if page == 'setting' %}
                         <a class="active" href="{{ path('app_user_setting') }}">Paramètres</a>
@@ -39,7 +43,7 @@
                             stats: stats,
                         }) }}
 
-                    {% elseif page == 'deals' %}
+                    {% elseif page == 'deals' or page =='favoris' %}
                         {{ component('profilDeals', {
                             deals: deals,
                         }) }}

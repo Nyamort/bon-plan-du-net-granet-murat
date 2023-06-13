@@ -85,6 +85,23 @@ class UserController extends AbstractController
     }
 
     #[Security('is_granted("ROLE_USER")')]
+    #[Route('/user/favoris', name: 'app_user_favoris')]
+    public function favoris(PublicationRepository $publicationRepo): Response
+    {
+        $deals = $this->getUser()->getFavoris();
+        $deals = $deals->toArray();
+        $stats = [
+            'publication' => $publicationRepo->countPublicationByUser($this->getUser()),
+        ];
+        return $this->render('user/index.html.twig', [
+            'page' => 'favoris',
+            'deals' => $deals,
+            'stats' => $stats,
+            'title' => 'Mes deals favoris',
+        ]);
+    }
+
+    #[Security('is_granted("ROLE_USER")')]
     #[Route('/user/setting', name: 'app_user_setting')]
     public function setting(Request $request, PublicationRepository $publicationRepo, EntityManagerInterface $entityManager): Response
     {
