@@ -28,7 +28,13 @@
                             {% if  code_promo.publication.codePromo is not null %}
                                 <div class="codepromo-box py-1 px-3 rounded fw-bold">Code promo : {{ code_promo.publication.codePromo.code }}</div>
                             {% endif %}
-
+                            <div class="ms-auto">
+                                <form action="{{ path("app_publication_report", {id: code_promo.publication.id}) }}" method="post">
+                                    <button type="submit" class="btn btn-danger text-white">
+                                        Signaler
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">

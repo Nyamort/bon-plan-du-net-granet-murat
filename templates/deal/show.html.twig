@@ -20,6 +20,13 @@
                             <a class="btn btn-primary text-white" target="_blank" href="{{ deal.publication.link }}">
                                 Visiter le site
                             </a>
+                            <div class="ms-auto">
+                                <form action="{{ path("app_publication_report", {id: deal.publication.id}) }}" method="post">
+                                    <button type="submit" class="btn btn-danger text-white">
+                                        Signaler
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
