@@ -2,22 +2,27 @@
 
 namespace App\Controller;
 
-use App\Entity\Commentaire;
-use App\Entity\Publication;
 use App\Form\ProfilType;
-use App\Form\RegistrationFormType;
 use App\Repository\CommentaireRepository;
-use App\Repository\DealRepository;
 use App\Repository\PublicationRepository;
-use App\Repository\UserRepository;
+use App\Security\EmailVerifier;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
+
+    public function __construct(private EmailVerifier $emailVerifier)
+    {
+    }
+
+
     #[Security('is_granted("ROLE_USER")')]
     #[Route('/user', name: 'app_user')]
     public function index(PublicationRepository $publicationRepo, CommentaireRepository $commentRepo): Response
@@ -28,7 +33,12 @@ class UserController extends AbstractController
         $comment = $commentRepo->findByUser($this->getUser());
         if ($comment == null)
             $comment = 0;
-        $mostHot = $publicationRepo->findHotByUser($this->getUser());
+        try {
+            $mostHot = $publicationRepo->findHotByUser($this->getUser());
+        }
+        catch(\Exception $e){
+            $mostHot = 0;
+        }
         if ($mostHot == null)
             $mostHot = 0;
         $average = $publicationRepo->averageNotationByUser($this->getUser());
@@ -75,17 +85,46 @@ class UserController extends AbstractController
     }
 
     #[Security('is_granted("ROLE_USER")')]
+    #[Route('/user/favoris', name: 'app_user_favoris')]
+    public function favoris(PublicationRepository $publicationRepo): Response
+    {
+        $deals = $this->getUser()->getFavoris();
+        $deals = $deals->toArray();
+        $stats = [
+            'publication' => $publicationRepo->countPublicationByUser($this->getUser()),
+        ];
+        return $this->render('user/index.html.twig', [
+            'page' => 'favoris',
+            'deals' => $deals,
+            'stats' => $stats,
+            'title' => 'Mes deals favoris',
+        ]);
+    }
+
+    #[Security('is_granted("ROLE_USER")')]
     #[Route('/user/setting', name: 'app_user_setting')]
     public function setting(Request $request, PublicationRepository $publicationRepo, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(ProfilType::class, $user);
-        $user = $user->setPseudo($form->get('pseudo')->getData());
-        $entityManager->persist($user);
-        $entityManager->flush();
-        $user = $user->setEmail($form->get('email')->getData());
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPseudo($form->get('pseudo')->getData());
+            $user->setEmail($form->get('email')->getData());
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // generate a signed url and email it to the user
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('max.gt03@gmail.com', 'EmailBot'))
+                    ->to($user->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
+        }
         $stats = [
             'publication' => $publicationRepo->countPublicationByUser($this->getUser()),
         ];
@@ -96,5 +135,20 @@ class UserController extends AbstractController
             'user' => $this->getUser(),
             'title' => 'Paramètres',
         ]);
+    }
+    #[Security('is_granted("ROLE_USER")')]
+    #[Route('/user/delete', name: 'app_user_delete')]
+    public function delete(EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $this->container->get('security.token_storage')->setToken(null);
+
+        $em->remove($user);
+        $em->flush();
+
+// Ceci ne fonctionne pas avec la création d'une nouvelle session !
+        $this->addFlash('success', 'Votre compte utilisateur a bien été supprimé !');
+
+        return $this->redirectToRoute('app_home');
     }
 }

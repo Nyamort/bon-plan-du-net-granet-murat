@@ -73,8 +73,6 @@ class DealRepository extends ServiceEntityRepository
             ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
             ->groupBy('c.id')
             ->having('sum(n.value) >= 100')
-            ->andWhere('c.expiredAt > :date')
-            ->setParameter('date', new DateTime())
             ->getQuery()
             ->getResult()
             ;

@@ -48,15 +48,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\Column]
-    private ?int $surveillant = null;
-
-    #[ORM\Column]
-    private ?int $cobaye = null;
-
-    #[ORM\Column]
-    private ?int $rapportDeStage = null;
-
     #[ORM\ManyToMany(targetEntity: Publication::class, inversedBy: 'users')]
     private Collection $favoris;
 

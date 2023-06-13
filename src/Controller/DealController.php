@@ -27,6 +27,7 @@ class DealController extends AbstractController
     {
         return $this->render('deal/index.html.twig', [
             'deals' => $dealRepository->findAll(),
+            'page' => 'home',
         ]);
     }
 
@@ -35,6 +36,7 @@ class DealController extends AbstractController
     {
         return $this->render('deal/index.html.twig', [
             'deals' => $dealRepository->findHot(),
+            'page' => 'hot',
         ]);
     }
 
@@ -47,7 +49,6 @@ class DealController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getUser()->addCobaye();
             $image = $form->get('publication')->get('image')->getData();
             if ($image) {
                 $imageFileName = $this->fileUploader->upload($image);

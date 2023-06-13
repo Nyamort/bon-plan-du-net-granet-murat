@@ -6,7 +6,10 @@
     <div class="form-outline mb-4 form-floating text-light">
         {{ form_row(form.email, {label: 'Email'}) }}
     </div>
-    <button class="btn-light mb-4" type="submit">Save</button>
+    <div class="d-flex justify-content-around">
+        <button class="btn btn-outline-primary col-3 align-self-center" type="submit">Enregistrer</button>
+        <a class="btn btn-outline-primary col-4 align-self-center" href="{{ path('app_forgot_password_request') }}">Modifier le mot de passe</a>
+        <a class="btn col-3 btn-danger align-self-center" href="{{ path('app_user_delete') }}">Supprimer</a>
+    </div>
     {{ form_end(form) }}
-    <a class="btn btn-outline-primary" href="{{ path('app_forgot_password_request') }}">Modifier le mot de passe</a>
 </div>

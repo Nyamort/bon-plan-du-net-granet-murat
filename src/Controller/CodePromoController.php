@@ -33,6 +33,7 @@ class CodePromoController extends AbstractController
 
         return $this->render('code_promo/index.html.twig', [
             'code_promos' => $codePromos,
+            'page' => 'home'
         ]);
     }
 
@@ -43,6 +44,7 @@ class CodePromoController extends AbstractController
 
         return $this->render('code_promo/index.html.twig', [
             'code_promos' => $codePromos,
+            'page' => 'hot'
         ]);
     }
 
@@ -55,7 +57,6 @@ class CodePromoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getUser()->addCobaye();
             $image = $form->get('publication')->get('image')->getData();
             if ($image) {
                 $imageFileName = $this->fileUploader->upload($image);
