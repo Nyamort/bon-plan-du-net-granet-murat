@@ -9,7 +9,16 @@
                 <img class="p-3 card-img rounded overflow-hidden" src="{{ asset('uploads/publications/'~deal.publication.image) }}" alt="CodePromo"/>
                 <div class="w-100 d-flex flex-column">
                     <div class="card-body align-items-start">
-                        {{ component('notation', { publication: deal.publication }) }}
+                        <div class="justify-content-between d-flex align-items-center">
+                            {{ component('notation', { publication: deal.publication }) }}
+                            <a href="{{ path('app_favori_toggle', {publication_id: deal.publication.id}) }}">
+                                {% if inFavorites == true %}
+                                    <i class="bi bi-star-fill icon-yellow icon-2x"></i>
+                                {% else %}
+                                    <i class="bi bi-star icon-yellow icon-2x"></i>
+                                {% endif %}
+                            </a>
+                        </div>
                         <h5 class="card-title fw-bold">{{ deal.publication.title }}</h5>
                         <h6 class="fw-bold">
                             {{ deal.price }}€ au lieu de
@@ -20,6 +29,13 @@
                             <a class="btn btn-primary text-white" target="_blank" href="{{ deal.publication.link }}">
                                 Visiter le site
                             </a>
+                            <div class="ms-auto">
+                                <form action="{{ path("app_publication_report", {id: deal.publication.id}) }}" method="post">
+                                    <button type="submit" class="btn btn-danger text-white">
+                                        Signaler
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">

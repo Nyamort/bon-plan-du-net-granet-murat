@@ -1,3 +1,7 @@
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
+        envelope:
+            sender: 'contact@bonplannet.com'
+        headers:
+            from: 'BonPlanNet <contact@bonplannet.com>'

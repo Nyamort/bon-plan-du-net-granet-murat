@@ -4,15 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Commentaire;
 use App\Entity\Notation;
+use App\Entity\Publication;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Repository\CommentaireRepository;
 use App\Repository\NotationRepository;
 use App\Repository\PublicationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PublicationController extends AbstractController
@@ -22,7 +25,8 @@ class PublicationController extends AbstractController
     public function __construct(
         private readonly PublicationRepository $publicationRepository,
         private readonly NotationRepository    $notationRepository,
-        private readonly CommentaireRepository $commentaireRepository
+        private readonly CommentaireRepository $commentaireRepository,
+        private readonly MailerInterface        $mailer
     )
     {
     }
@@ -59,6 +63,29 @@ class PublicationController extends AbstractController
         return $this->render('commentaire/new.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Security('is_granted("ROLE_USER")')]
+    #[Route('/publication/{id}/report', name: 'app_publication_report', methods: ['POST'])]
+    public function report(Request $request, Publication $publication): Response
+    {
+        $email = (new TemplatedEmail())
+            ->to('contact@bonplannet.com')
+            ->subject('Nouveau signalement')
+            ->htmlTemplate('email/report.html.twig')
+            ->context([
+                'publication' => $publication,
+                'user' => $this->getUser(),
+            ]);
+        $this->mailer->send($email);
+        $this->addFlash('success', 'Votre signalement a bien été pris en compte');
+        $route = $request->headers->get('referer');
+
+        if ($route === null) {
+            return $this->redirectToRoute('app_home');
+        } else {
+            return $this->redirect($route);
+        }
     }
 
     #[Security('is_granted("ROLE_USER")')]

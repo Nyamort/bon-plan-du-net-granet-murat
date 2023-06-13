@@ -9,7 +9,16 @@
                 <img class="p-3 card-img rounded overflow-hidden" src="{{ asset('uploads/publications/'~code_promo.publication.image) }}" alt="CodePromo"/>
                 <div class="w-100 d-flex flex-column">
                     <div class="card-body align-items-start">
-                        {{ component('notation', { publication: code_promo.publication }) }}
+                        <div class="justify-content-between d-flex align-items-center">
+                            {{ component('notation', { publication: code_promo.publication }) }}
+                            <a href="{{ path('app_favori_toggle', {publication_id: code_promo.publication.id}) }}">
+                                {% if inFavorites == true %}
+                                    <i class="bi bi-star-fill icon-yellow icon-2x"></i>
+                                {% else %}
+                                    <i class="bi bi-star icon-yellow icon-2x"></i>
+                                {% endif %}
+                            </a>
+                        </div>
                         <h5 class="card-title fw-bold">{{ code_promo.publication.title }}</h5>
                         <h6 class="fw-bold">
                             {% if code_promo.typeDeReduction.label == 'Livraison gratuite' %}
@@ -28,7 +37,13 @@
                             {% if  code_promo.publication.codePromo is not null %}
                                 <div class="codepromo-box py-1 px-3 rounded fw-bold">Code promo : {{ code_promo.publication.codePromo.code }}</div>
                             {% endif %}
-
+                            <div class="ms-auto">
+                                <form action="{{ path("app_publication_report", {id: code_promo.publication.id}) }}" method="post">
+                                    <button type="submit" class="btn btn-danger text-white">
+                                        Signaler
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">

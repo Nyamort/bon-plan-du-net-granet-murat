@@ -48,6 +48,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\ManyToMany(targetEntity: Publication::class, inversedBy: 'users')]
+    private Collection $favoris;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -56,6 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->surveillant = 0;
         $this->cobaye = 0;
         $this->rapportDeStage = 0;
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -238,6 +242,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getSurveillant(): ?int
+    {
+        return $this->surveillant;
+    }
+
+    public function addSurveillant(): self
+    {
+        $this->surveillant++;
+
+        return $this;
+    }
+
+    public function getCobaye(): ?int
+    {
+        return $this->cobaye;
+    }
+
+    public function addCobaye(): self
+    {
+        $this->cobaye ++;
+
+        return $this;
+    }
+
+    public function getRapportDeStage(): ?int
+    {
+        return $this->rapportDeStage;
+    }
+
+    public function addRapportDeStage(): self
+    {
+        $this->rapportDeStage++;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Publication>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Publication $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Publication $favori): self
+    {
+        $this->favoris->removeElement($favori);
 
         return $this;
     }

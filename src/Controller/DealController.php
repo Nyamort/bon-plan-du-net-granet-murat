@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Deal;
+use App\Entity\User;
 use App\Form\DealType;
 use App\Repository\DealRepository;
 use App\Service\FileUploader;
@@ -68,8 +69,14 @@ class DealController extends AbstractController
     #[Route('/{id}', name: 'app_deal_show', methods: ['GET'])]
     public function show(Deal $deal): Response
     {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $inFavorites = $user && $user->getFavoris()->contains($deal->getPublication());
         return $this->render('deal/show.html.twig', [
             'deal' => $deal,
+            'inFavorites' => $inFavorites
         ]);
     }
 
