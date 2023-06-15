@@ -51,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Publication::class, inversedBy: 'users')]
     private Collection $favoris;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Alert::class, orphanRemoval: true)]
+    private Collection $alerts;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -60,6 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cobaye = 0;
         $this->rapportDeStage = 0;
         $this->favoris = new ArrayCollection();
+        $this->alerts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -302,6 +306,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeFavori(Publication $favori): self
     {
         $this->favoris->removeElement($favori);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Alert>
+     */
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
+    public function addAlert(Alert $alert): self
+    {
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts->add($alert);
+            $alert->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlert(Alert $alert): self
+    {
+        if ($this->alerts->removeElement($alert)) {
+            // set the owning side to null (unless already changed)
+            if ($alert->getUser() === $this) {
+                $alert->setUser(null);
+            }
+        }
 
         return $this;
     }
