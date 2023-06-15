@@ -64,11 +64,15 @@ class Publication
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favoris')]
     private Collection $users;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'publications_alert')]
+    private Collection $users_alert;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->users_alert = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +274,33 @@ class Publication
     {
         if ($this->users->removeElement($user)) {
             $user->removeFavori($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsersAlert(): Collection
+    {
+        return $this->users_alert;
+    }
+
+    public function addUsersAlert(User $usersAlert): self
+    {
+        if (!$this->users_alert->contains($usersAlert)) {
+            $this->users_alert->add($usersAlert);
+            $usersAlert->addPublicationsAlert($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersAlert(User $usersAlert): self
+    {
+        if ($this->users_alert->removeElement($usersAlert)) {
+            $usersAlert->removePublicationsAlert($this);
         }
 
         return $this;
