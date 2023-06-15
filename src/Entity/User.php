@@ -62,9 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->publications = new ArrayCollection();
-        $this->surveillant = 0;
-        $this->cobaye = 0;
-        $this->rapportDeStage = 0;
         $this->favoris = new ArrayCollection();
         $this->publications_alert = new ArrayCollection();
         $this->alerts = new ArrayCollection();
@@ -250,42 +247,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    public function getSurveillant(): ?int
-    {
-        return $this->surveillant;
-    }
-
-    public function addSurveillant(): self
-    {
-        $this->surveillant++;
-
-        return $this;
-    }
-
-    public function getCobaye(): ?int
-    {
-        return $this->cobaye;
-    }
-
-    public function addCobaye(): self
-    {
-        $this->cobaye ++;
-
-        return $this;
-    }
-
-    public function getRapportDeStage(): ?int
-    {
-        return $this->rapportDeStage;
-    }
-
-    public function addRapportDeStage(): self
-    {
-        $this->rapportDeStage++;
 
         return $this;
     }
