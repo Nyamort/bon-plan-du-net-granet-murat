@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Alert;
+use App\Entity\Publication;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -54,6 +56,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
 
         $this->save($user, true);
+    }
+
+    public function findByPublicationAlert(Publication $publication)
+    {
+        return $this->createQueryBuilder('u')
+            ->distinct()
+            ->innerJoin(Alert::class, 'a', 'WITH', 'a.user = u.id')
+            ->leftJoin('u.publications_alert', 'p')
+            ->where(':publicationTitle LIKE CONCAT(\'%\', a.keyword, \'%\')')
+            ->andWhere('p.id != :publicationId')
+            ->orWhere('p.id IS NULL')
+            ->setParameter('publicationTitle', $publication->getTitle())
+            ->setParameter('publicationId', $publication->getId())
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
