@@ -4,11 +4,19 @@ namespace App\Subscriber;
 
 use App\Entity\Notation;
 use App\Entity\Publication;
+use App\Service\AlertService;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class AlerteSubscriber implements EventSubscriberInterface
 {
+
+
+    public function __construct(
+        private readonly AlertService $alertService,
+    )
+    {
+    }
 
     public function getSubscribedEvents(): array
     {
@@ -22,11 +30,11 @@ class AlerteSubscriber implements EventSubscriberInterface
     {
         $entity = $args->getObject();
         if($entity instanceof Notation) {
-
+            $this->alertService->addNotification($entity->getPublication());
         }
 
         if($entity instanceof Publication) {
-
+            $this->alertService->addNotification($entity);
         }
         return;
 
@@ -34,6 +42,9 @@ class AlerteSubscriber implements EventSubscriberInterface
 
     public function postRemove(LifecycleEventArgs $args): void
     {
-
+        $entity = $args->getObject();
+        if($entity instanceof Notation) {
+            $this->alertService->removeNotification($entity->getPublication());
+        }
     }
 }

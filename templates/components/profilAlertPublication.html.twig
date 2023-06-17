@@ -1,0 +1,9 @@
+<div class="d-flex flex-column gap-5">
+    {% for publication in publications %}
+        {{ component('publication', {
+            publication: publication
+        }) }}
+    {% else %}
+        <p class="text-center">Aucune publication</p>
+    {% endfor %}
+</div>

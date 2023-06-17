@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\ProfilType;
 use App\Repository\CommentaireRepository;
 use App\Repository\PublicationRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -136,6 +138,49 @@ class UserController extends AbstractController
             'title' => 'Paramètres',
         ]);
     }
+
+    #[Security('is_granted("ROLE_USER")')]
+    #[Route('/user/alert-publication', name: 'app_user_alert_publications')]
+    public function alertPublication(PublicationRepository $publicationRepo): Response
+    {
+        $stats = [
+            'publication' => $publicationRepo->countPublicationByUser($this->getUser()),
+        ];
+        /**
+         * @var User $user
+         * $user
+         */
+        $user = $this->getUser();
+        $publications = $user->getPublicationsAlert();
+        return $this->render('user/index.html.twig', [
+            'page' => 'alert_publications',
+            'publications' => $publications,
+            'stats' => $stats,
+            'title' => 'Mes publications alertées',
+        ]);
+    }
+
+    #[Security('is_granted("ROLE_USER")')]
+    #[Route('/user/alert', name: 'app_user_alert')]
+    public function alert(PublicationRepository $publicationRepo): Response
+    {
+        $stats = [
+            'publication' => $publicationRepo->countPublicationByUser($this->getUser()),
+        ];
+        /**
+         * @var User $user
+         * $user
+         */
+        $user = $this->getUser();
+        $alertes = $user->getAlerts();
+        return $this->render('user/index.html.twig', [
+            'page' => 'alert',
+            'alertes' => $alertes,
+            'stats' => $stats,
+            'title' => 'Mes alertes',
+        ]);
+    }
+
     #[Security('is_granted("ROLE_USER")')]
     #[Route('/user/delete', name: 'app_user_delete')]
     public function delete(EntityManagerInterface $em): Response

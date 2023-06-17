@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\NotationRepository;
 use App\Repository\PublicationRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +16,7 @@ class HomeController extends AbstractController
 
     public function __construct(
         private PublicationRepository $publicationRepository,
-        private UserRepository $userRepository
+        private readonly UserRepository $userRepository,
     )
     {
     }
@@ -23,14 +24,12 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        $p =$this->publicationRepository->find(1);
-        dd($this->userRepository->findByPublicationAlert($p));
-//        $publications = $this->publicationRepository->findALaUne();
-//
-//        return $this->render('home/index.html.twig', [
-//            'publications' => $publications,
-//            'page' => 'home'
-//        ]);
+        $publications = $this->publicationRepository->findALaUne();
+
+        return $this->render('home/index.html.twig', [
+            'publications' => $publications,
+            'page' => 'home'
+        ]);
     }
 
     #[Route('/search', name: 'app_search')]

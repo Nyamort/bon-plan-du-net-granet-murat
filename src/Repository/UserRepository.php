@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Alert;
+use App\Entity\Notation;
 use App\Entity\Publication;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -58,17 +59,48 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-    public function findByPublicationAlert(Publication $publication)
+    /**
+     * @param Publication $publication
+     * @return User[]
+     */
+    public function findSubscribeUserToPublication(Publication $publication): array
     {
-        return $this->createQueryBuilder('u')
+        $qb = $this->createQueryBuilder('u');
+        return $qb->distinct()
+            ->innerJoin(Alert::class, 'a', 'WITH', 'a.user = u.id')
+            ->leftJoin('u.publications_alert', 'p')
+            ->where(':publicationTitle LIKE CONCAT(\'%\', a.keyword, \'%\')')
+            ->andWhere('a.minimum_notation <= :publicationNotation')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'p.id != :publicationId',
+                    'p.id IS NULL'
+                )
+            )
+            ->setParameter('publicationTitle', $publication->getTitle())
+            ->setParameter('publicationId', $publication->getId())
+            ->setParameter('publicationNotation', $publication->getNotation())
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Publication $publication
+     * @return User[]
+     */
+    public function findUnsubscribeUserToPublication(Publication $publication): array
+    {
+        $qb = $this->createQueryBuilder('u');
+        return $qb
             ->distinct()
             ->innerJoin(Alert::class, 'a', 'WITH', 'a.user = u.id')
             ->leftJoin('u.publications_alert', 'p')
             ->where(':publicationTitle LIKE CONCAT(\'%\', a.keyword, \'%\')')
-            ->andWhere('p.id != :publicationId')
-            ->orWhere('p.id IS NULL')
+            ->andWhere('a.minimum_notation > :publicationNotation')
+            ->andWhere('p.id = :publicationId')
             ->setParameter('publicationTitle', $publication->getTitle())
             ->setParameter('publicationId', $publication->getId())
+            ->setParameter('publicationNotation', $publication->getNotation())
             ->getQuery()
             ->getResult();
     }

@@ -20,6 +20,9 @@ class Alert
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column]
+    private ?int $minimum_notation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class Alert
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getMinimumNotation(): ?int
+    {
+        return $this->minimum_notation;
+    }
+
+    public function setMinimumNotation(int $minimum_notation): self
+    {
+        $this->minimum_notation = $minimum_notation;
 
         return $this;
     }

@@ -8,54 +8,68 @@
 
 {% block body %}
     <div class="container container-profil">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="topnav">
-                    {% if page == 'profil' %}
-                        <a class="active" href="{{ path('app_user') }}">Aperçu</a>
-                    {% else %}
-                        <a href="{{ path('app_user') }}">Aperçu</a>
-                    {% endif %}
-                    {% if page == 'deals' %}
-                        <a class="active" href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
-                    {% else %}
-                        <a href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
-                    {% endif %}
-                    {% if page == 'favoris' %}
-                        <a class="active" href="{{ path('app_user_favoris') }}">Deals sauvegardés</a>
-                    {% else %}
-                        <a href="{{ path('app_user_favoris') }}">Deals sauvegardés</a>
-                    {% endif %}
-                    <a href="{{ path('app_user') }}">Mes alertes</a>
-                    {% if page == 'setting' %}
-                        <a class="active" href="{{ path('app_user_setting') }}">Paramètres</a>
-                    {% else %}
-                        <a href="{{ path('app_user_setting') }}">Paramètres</a>
-                    {% endif %}
-                </div>
-                <div class="card card-profil">
-                    <div class="card-header card-profil-header">
-                        <h3>{{title}}</h3>
-                    </div>
-                    {% if page == 'profil' %}
-                        {{ component('profilUser', {
-                            user: user,
-                            stats: stats,
-                        }) }}
+        <div class="topnav">
+            {% if page == 'profil' %}
+                <a class="active" href="{{ path('app_user') }}">Aperçu</a>
+            {% else %}
+                <a href="{{ path('app_user') }}">Aperçu</a>
+            {% endif %}
+            {% if page == 'deals' %}
+                <a class="active" href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
+            {% else %}
+                <a href="{{ path('app_user_deals') }}">Deals ({{ stats.publication }})</a>
+            {% endif %}
+            {% if page == 'favoris' %}
+                <a class="active" href="{{ path('app_user_favoris') }}">Deals sauvegardés</a>
+            {% else %}
+                <a href="{{ path('app_user_favoris') }}">Deals sauvegardés</a>
+            {% endif %}
+            {% if page == 'alert_publications' %}
+                <a class="active" href="{{ path('app_user_alert_publications') }}">Mes publications alertées</a>
+            {% else %}
+                <a href="{{ path('app_user_alert_publications') }}">Mes publications alertées</a>
+            {% endif %}
+            {% if page == 'alert' %}
+                <a class="active" href="{{ path('app_user_alert') }}">Mes alertes</a>
+            {% else %}
+                <a href="{{ path('app_user_alert') }}">Mes alertes</a>
+            {% endif %}
 
-                    {% elseif page == 'deals' or page =='favoris' %}
-                        {{ component('profilDeals', {
-                            deals: deals,
-                        }) }}
-
-                    {% elseif page == 'setting' %}
-                        {{ component('profilSetting', {
-                            user: user,
-                            form: form,
-                        }) }}
-                    {% endif %}
-                </div>
+            {% if page == 'setting' %}
+                <a class="active" href="{{ path('app_user_setting') }}">Paramètres</a>
+            {% else %}
+                <a href="{{ path('app_user_setting') }}">Paramètres</a>
+            {% endif %}
+        </div>
+        <div class="card card-profil">
+            <div class="card-header card-profil-header">
+                <h3>{{title}}</h3>
             </div>
+            {% if page == 'profil' %}
+                {{ component('profilUser', {
+                    user: user,
+                    stats: stats,
+                }) }}
+
+            {% elseif page == 'deals' or page =='favoris' %}
+                {{ component('profilDeals', {
+                    deals: deals,
+                }) }}
+
+            {% elseif page == 'setting' %}
+                {{ component('profilSetting', {
+                    user: user,
+                    form: form,
+                }) }}
+            {% elseif page == 'alert_publications' %}
+                {{ component('profilAlertPublication',{
+                    publications: publications,
+                }) }}
+            {% elseif page == 'alert' %}
+                {{ component('profilAlert',{
+                    alerts: alertes,
+                }) }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
