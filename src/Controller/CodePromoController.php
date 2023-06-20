@@ -116,6 +116,6 @@ class CodePromoController extends AbstractController
             $codePromoRepository->remove($codePromo, true);
         }
 
-        return $this->redirectToRoute('app_code_promo_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_deals', [], Response::HTTP_SEE_OTHER);
     }
 }

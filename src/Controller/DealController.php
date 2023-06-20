@@ -107,6 +107,6 @@ class DealController extends AbstractController
             $dealRepository->remove($deal, true);
         }
 
-        return $this->redirectToRoute('app_deal_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_deals', [], Response::HTTP_SEE_OTHER);
     }
 }
