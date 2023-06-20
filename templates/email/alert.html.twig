@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Vos publications</title>
+</head>
+<body>
+    <header>
+        <h1>Vos publications</h1>
+    </header>
+    <main>
+        <p>
+            Bonjour {{ user.username }},
+        </p>
+        <p>
+            Vous avez {{ nbPublication }} publication(s) :
+        </p>
+        {% for publication in publications %}
+            <p>
+                {{ publication.title }}
+            </p>
+        {% endfor %}
+    </main>
+</body>
+</html>

@@ -5,7 +5,7 @@
             {{ component('publication', {
                 publication: deal,
             }) }}
-            <form method="post" action="{% if deal.deal %} {{path("app_deal_delete", {'id': deal.deal.id})}} {% else %} {{path("app_code_promo_delete",{'id': deal.codePromo.id})}} {% endif %}" onsubmit="return confirm('Voulez vous vraiment supprimer cette publication ?')">
+            <form method="post" action="{% if deal.deal %}{{path("app_deal_delete", {id: deal.deal.id})}}{% else %}{{path("app_code_promo_delete",{id: deal.codePromo.id})}}{% endif %}" onsubmit="return confirm('Voulez vous vraiment supprimer cette publication ?')">
                 <input type="hidden" name="_method" value="DELETE">
                 <button type="submit" class="btn btn-danger">Supprimer</button>
             </form>
