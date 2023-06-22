@@ -36,14 +36,26 @@ class UserController extends AbstractController
         if ($comment == null)
             $comment = 0;
         try {
-            $mostHot = $publicationRepo->findHotByUser($this->getUser());
+            $hots = $publicationRepo->findHotByUser($this->getUser());
+            // find maximum hot
+            $mostHot = 0;
+            foreach ($hots as $hot) {
+                if (current($hot) > $mostHot)
+                    $mostHot = current($hot);
+            }
         }
         catch(\Exception $e){
             $mostHot = 0;
         }
         if ($mostHot == null)
             $mostHot = 0;
-        $average = $publicationRepo->averageNotationByUser($this->getUser());
+            $rates = $publicationRepo->findNotationByUser($this->getUser());
+            $average = 0;
+            foreach ($rates as $rate) {
+                $average += current($rate);
+            }
+            $average = $average / count($rates);
+
         if ($average == null)
             $average = 0;
         if($publication>0){
