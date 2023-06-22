@@ -69,7 +69,7 @@ class DealRepository extends ServiceEntityRepository
     public function findHot()
     {
         return $this->createQueryBuilder('c')
-            ->innerJoin(Publication::class, 'p', 'WITH', 'p.codePromo = c.id')
+            ->innerJoin(Publication::class, 'p', 'WITH', 'p.deal = c.id')
             ->innerJoin(Notation::class, 'n', 'WITH', 'n.publication = p.id')
             ->groupBy('c.id')
             ->having('sum(n.value) >= 100')
